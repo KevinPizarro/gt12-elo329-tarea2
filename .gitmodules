@@ -1,0 +1,3 @@
+[submodule "Tarea1"]
+	path = Tarea1
+	url = ../tarea1.git
