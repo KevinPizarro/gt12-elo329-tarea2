@@ -13,7 +13,7 @@ public class Pedestrian {
         x = Math.random()*comuna.getWidth();
         y = Math.random()*comuna.getHeight();
         angle = Math.random()*2*Math.PI;
-        pedestrianView = //???
+        pedestrianView = PedestrianView(comuna, this);
     }
     public double getX(){
         return x;
@@ -48,6 +48,6 @@ public class Pedestrian {
         y=y_tPlusDelta;
     }
     public void updateView() {
-        //??
+        pedestrianView.update()
     }
 }

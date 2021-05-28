@@ -16,7 +16,7 @@ public class PedestrianView {
         comuna.getView().getChildren().....???
     }
     public void update() {
-        view.setX(//???);
-        view.setY(//???);
+        view.setX(person.getX());
+        view.setY(person.getY());
     }
 }
