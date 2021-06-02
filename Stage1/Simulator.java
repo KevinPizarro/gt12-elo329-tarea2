@@ -38,15 +38,22 @@ public class Simulator {
         comuna.getView().setOnKeyPressed( e->keyHandle(e));
     }
     private void keyHandle (KeyEvent e) {
-	/// ?????
+	    switch (e.getcode()){
+            case RIGHT:
+                speedup();
+                break;
+            case LEFT:
+                slowdown();
+                break;
+        }
     }
     public void stop(){
-        //?????
+        animation.stop();
     }
     public void speedup(){
-       //????
+       delta_t= 2*delta_t
     }
     public void slowdown(){
-       // ???
+       delta_t= delta_t/2
     }
 }

@@ -13,7 +13,7 @@ public class PedestrianView {
         // upper-left corner of the rectangle
         view.setY(person.getY()-SIZE/2); // Rectangle y position is the Y coordinate of the
         // upper-left corner of the rectangle
-        comuna.getView().getChildren().....???
+        comuna.getView().getChildren().addAll(view) //Agrega a la persona en la comuna
     }
     public void update() {
         view.setX(person.getX());

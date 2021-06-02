@@ -48,6 +48,6 @@ public class Pedestrian {
         y=y_tPlusDelta;
     }
     public void updateView() {
-        pedestrianView.update()
+        pedestrianView.update();
     }
 }
