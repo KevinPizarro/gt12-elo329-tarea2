@@ -12,12 +12,12 @@ public class Comuna {
 
     public Comuna(){
         double width = SimulatorConfig.WIDTH;
-        double length = //???
+        double length = SimulatorConfig.LENGTH;
         territory = new Rectangle2D(0,0, width, length);
-        double speed = //??
-        double deltaAngle = //???
+        double speed = SimulatorConfig.SPEED;
+        double deltaAngle = SimulatorConfig.DELTA_THETA;
         view = new ComunaView(this); // What if you exchange this and the follow line?
-        person=new Pedestrian(this, speed, deltaAngle);
+        person = new Pedestrian(this, speed, deltaAngle);
         graph = new Pane();  // to be completed in other stages.
     }
     public double getWidth() {

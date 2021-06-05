@@ -13,6 +13,6 @@ public class ComunaView extends Group {
         setFocusTraversable(true);  // needed to receive mouse and keyboard events.
     }
     public void update(){
-        //????
+        comuna.getPedestrian().updateView();
     }
 }
