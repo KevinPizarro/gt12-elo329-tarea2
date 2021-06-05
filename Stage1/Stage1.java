@@ -9,6 +9,7 @@ import javafx.stage.Stage;
 import java.io.File;
 import java.util.List;
 import java.util.Scanner;
+import java.util.Locale;
 
 public class Stage1 extends Application {
     @Override
@@ -36,6 +37,7 @@ public class Stage1 extends Application {
     }
 
     public static void main(String[] args) {
+        Locale.setDefault(new Locale("en", "US")); //Para asumir el punto como decimal
         launch(args);
     }
 }
