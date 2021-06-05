@@ -1,4 +1,4 @@
-package Stage1;
+package Stage2;
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -11,13 +11,13 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Locale;
 
-public class Stage1 extends Application {
+public class Stage2 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
         Parameters param = getParameters();
         List<String> rawParam = param.getRaw();
         if (rawParam.size() != 1) {
-            System.out.println("Usage: java Stage1 <configurationFile.txt>");
+            System.out.println("Usage: java Stage2 <configurationFile.txt>");
             System.exit(-1);
         }
         primaryStage.setTitle("Pandemic Graphics Simulator");
