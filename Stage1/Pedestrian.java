@@ -1,3 +1,4 @@
+package Stage1;
 import javafx.scene.Group;
 
 public class Pedestrian {
