@@ -1,21 +1,19 @@
-package Stage1;
-
 import javafx.scene.Group;
 
 public class Pedestrian {
     private double x, y, speed, angle, deltaAngle;
     private double x_tPlusDelta, y_tPlusDelta;
-    private Stage1.Comuna comuna;
-    private Group pedestrianView;
+    private Comuna comuna;
+    private PedestrianView pedestrianView;
 
-    public Pedestrian(Stage1.Comuna comuna, double speed, double deltaAngle){
+    public Pedestrian(Comuna comuna, double speed, double deltaAngle){
         this.comuna = comuna;
         this.speed = speed;
         this.deltaAngle=deltaAngle;
         x = Math.random()*comuna.getWidth();
         y = Math.random()*comuna.getHeight();
         angle = Math.random()*2*Math.PI;
-        pedestrianView = comuna.getView();
+        pedestrianView = new PedestrianView(comuna,this);
     }
     public double getX(){
         return x;
@@ -50,6 +48,6 @@ public class Pedestrian {
         y=y_tPlusDelta;
     }
     public void updateView() {
-        Stage1.
+        pedestrianView.update();
     }
 }

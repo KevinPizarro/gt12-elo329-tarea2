@@ -1,14 +1,12 @@
-package Stage1;
-
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
 
 public class PedestrianView {
-    private Stage1.Pedestrian person;
+    private Pedestrian person;
     private Rectangle view;
     private final double SIZE = 5;
 
-    public PedestrianView(Stage1.Comuna comuna, Stage1.Pedestrian p) {
+    public PedestrianView(Comuna comuna, Pedestrian p) {
         person = p;
         view = new Rectangle(SIZE, SIZE, Color.BLUE);
         view.setX(person.getX() - SIZE / 2);   // Rectangle x position is the X coordinate of the
@@ -19,7 +17,7 @@ public class PedestrianView {
     }
 
     public void update() {
-        view.setX(person.getX());
-        view.setY(person.getY());
+        view.setX(person.getX() - SIZE / 2);
+        view.setY(person.getY() - SIZE / 2);
     }
 }
