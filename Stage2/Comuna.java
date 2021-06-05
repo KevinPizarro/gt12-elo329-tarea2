@@ -1,4 +1,4 @@
-package Stage1;
+package Stage2;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
