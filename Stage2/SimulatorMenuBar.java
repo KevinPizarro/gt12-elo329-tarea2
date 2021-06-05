@@ -1,4 +1,4 @@
-package Stage1;
+package Stage2;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Menu;

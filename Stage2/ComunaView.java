@@ -1,4 +1,4 @@
-package Stage1;
+package Stage2;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
