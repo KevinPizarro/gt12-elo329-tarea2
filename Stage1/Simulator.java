@@ -30,23 +30,34 @@ public class Simulator {
         for(; simulationTime<nextStop; simulationTime+=delta_t) {
             comuna.computeNextState(delta_t); // compute its next state based on current global state
             comuna.updateState();            // update its state
+            comuna.updateView();
         }
-        //???
+        
     }
     public void start(){
         animation.play();
         comuna.getView().setOnKeyPressed( e->keyHandle(e));
     }
     private void keyHandle (KeyEvent e) {
-	/// ?????
+        switch (e.getCode()){
+            case RIGHT:
+                speedup();
+                break;
+            case LEFT:
+                slowdown();
+                break;
+            default:
+                break;
+        }
     }
     public void stop(){
-        //?????
+        animation.stop();
     }
     public void speedup(){
-       //????
+       delta_t = delta_t*2;
+       
     }
     public void slowdown(){
-       // ???
+       delta_t = delta_t/2;
     }
 }
