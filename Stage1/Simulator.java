@@ -6,7 +6,7 @@ import javafx.scene.input.KeyEvent;
 
 public class Simulator {
     private Timeline animation;
-    private Stage1.Comuna comuna;
+    private Comuna comuna;
     private double simulationSamplingTime;
     private double simulationTime;  // it goes along with real time, faster or slower than real time
     private double delta_t;   // precision of discrete simulation time
@@ -15,12 +15,12 @@ public class Simulator {
      * @param framePerSecond frequency of new views on screen
      * @param simulationTime2realTimeRate how faster the simulation runs relative to real time
      */
-    public Simulator (double framePerSecond, double simulationTime2realTimeRate, Stage1.Comuna comuna){
+    public Simulator (double framePerSecond, double simulationTime2realTimeRate, Comuna comuna){
         this.comuna = comuna;
         double viewRefreshPeriod = 1 / framePerSecond; // in [ms] real time used to display
         // a new view on application
         simulationSamplingTime = viewRefreshPeriod *simulationTime2realTimeRate;
-        delta_t = Stage1.SimulatorConfig.DELTA_T;
+        delta_t = SimulatorConfig.DELTA_T;
         simulationTime = 0;
         animation = new Timeline(new KeyFrame(Duration.millis(viewRefreshPeriod*1000), e->takeAction()));
         animation.setCycleCount(Timeline.INDEFINITE);
@@ -30,34 +30,34 @@ public class Simulator {
         for(; simulationTime<nextStop; simulationTime+=delta_t) {
             comuna.computeNextState(delta_t); // compute its next state based on current global state
             comuna.updateState();            // update its state
+            comuna.updateView();
         }
-        //???
+        
     }
     public void start(){
         animation.play();
         comuna.getView().setOnKeyPressed( e->keyHandle(e));
     }
     private void keyHandle (KeyEvent e) {
-        switch(e.getCode())
-        {
+        switch (e.getCode()){
             case RIGHT:
                 speedup();
                 break;
             case LEFT:
                 slowdown();
                 break;
-
+            default:
+                break;
         }
-	/// ?????
     }
     public void stop(){
         animation.stop();
-        comuna.getView();
     }
     public void speedup(){
-        delta_t=2*delta_t;
+       delta_t = delta_t*2;
+       
     }
     public void slowdown(){
-        delta_t=delta_t/2;
+       delta_t = delta_t/2;
     }
 }
