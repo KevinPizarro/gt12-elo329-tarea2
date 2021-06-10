@@ -4,12 +4,13 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.scene.input.KeyEvent;
 
+
 public class Simulator {
-    private Timeline animation;
+    private static Timeline animation;
     private Comuna comuna;
     private double simulationSamplingTime;
     private double simulationTime;  // it goes along with real time, faster or slower than real time
-    private double delta_t;   // precision of discrete simulation time
+    private static double delta_t;   // precision of discrete simulation time
 
     /**
      * @param framePerSecond frequency of new views on screen
@@ -32,11 +33,13 @@ public class Simulator {
             comuna.updateState();            // update its state
             comuna.updateView();
         }
-        
     }
     public void start(){
+        stop();
+        Stage2.restart();
+        SimulatorConfig.stopflag = false;
         animation.play();
-        comuna.getView().setOnKeyPressed( e->keyHandle(e));
+        Stage2.primary.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
     }
     private void keyHandle (KeyEvent e) {
         switch (e.getCode()){
@@ -51,7 +54,9 @@ public class Simulator {
         }
     }
     public void stop(){
+        SimulatorConfig.stopflag = true;
         animation.stop();
+        Stage2.primary.getScene().removeEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
     }
     public void speedup(){
        delta_t = delta_t*2;
