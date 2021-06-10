@@ -2,9 +2,10 @@ package Stage2;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import java.util.ArrayList;
 
 public class ComunaView extends Group {
-    private final Comuna comuna;
+    private Comuna comuna;
     public ComunaView(Comuna c){
         comuna = c;
         Rectangle territoryView = new Rectangle(comuna.getWidth(), comuna.getHeight(), Color.WHITE);
@@ -13,6 +14,9 @@ public class ComunaView extends Group {
         setFocusTraversable(true);  // needed to receive mouse and keyboard events.
     }
     public void update(){
-        comuna.getPedestrian().updateView();
+        ArrayList<Pedestrian> personas = comuna.getPedestrian();
+        for(int i=0; i<personas.size();i++){
+            personas.get(i).updateView();
+        }
     }
 }
