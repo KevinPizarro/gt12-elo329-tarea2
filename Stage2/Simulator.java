@@ -4,17 +4,37 @@ import javafx.animation.Timeline;
 import javafx.util.Duration;
 import javafx.scene.input.KeyEvent;
 
-
+/**
+ * Clase cuya funcionalidad es dar inicio, parar, acelerar, ralentizar y coordinar todos los elementos necesarios
+ * para la simulación.
+ */
 public class Simulator {
+    /**
+     * Variable para animaciones, se actualiza cada delta_t
+     */
     private static Timeline animation;
+    /**
+     * Variable para la comuna
+     */
     private Comuna comuna;
+    /**
+     * Tiempo de muestreo para la simulación, tiempo entre delta_t
+     */
     private double simulationSamplingTime;
-    private double simulationTime;  // it goes along with real time, faster or slower than real time
+    /**
+     * Tiempo total de simulación
+     */
+    private double simulationTime;
+    /**
+     * Corresponde al paso de tiempo
+     */
     private static double delta_t;   // precision of discrete simulation time
 
     /**
-     * @param framePerSecond frequency of new views on screen
-     * @param simulationTime2realTimeRate how faster the simulation runs relative to real time
+     * Constructor de la clase con 3 parámetros
+     * @param framePerSecond Frecuencia para la actualización de cada vista gráfica
+     * @param simulationTime2realTimeRate Representa que tan rápido se ejecuta la simulación respecto al tiempo real
+     * @param comuna Representa a la comuna de la simulación.
      */
     public Simulator (double framePerSecond, double simulationTime2realTimeRate, Comuna comuna){
         this.comuna = comuna;
@@ -26,14 +46,22 @@ public class Simulator {
         animation = new Timeline(new KeyFrame(Duration.millis(viewRefreshPeriod*1000), e->takeAction()));
         animation.setCycleCount(Timeline.INDEFINITE);
     }
+
+    /**
+     * Método para llamar a actualizar de estado y vista la comuna, por ende los individuos
+     */
     private void takeAction() {
         double nextStop=simulationTime+simulationSamplingTime;
-        for(; simulationTime<nextStop; simulationTime+=delta_t) {
-            comuna.computeNextState(delta_t); // compute its next state based on current global state
-            comuna.updateState();            // update its state
-            comuna.updateView();
+        for(; simulationTime<nextStop; simulationTime+=delta_t) { //Ciclo for que se ejecuta hasta el tiempo simulationTime
+            comuna.computeNextState(delta_t); // Computa su nuevo estado
+            comuna.updateState();            // Actualiza su nuevo estado
+            comuna.updateView();            // Muesta su nuevo estado
         }
     }
+
+    /**
+     * Método para iniciar la simulación
+     */
     public void start(){
         stop();
         Stage2.restart();
@@ -41,27 +69,44 @@ public class Simulator {
         animation.play();
         Stage2.primary.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
     }
+
+    /**
+     * Método para leer input de teclado, llamando a acelerar o ralentizar la simulación según el caso
+     * @param e Tecla presionada por el usuario
+     */
     private void keyHandle (KeyEvent e) {
         switch (e.getCode()){
-            case RIGHT:
+            case RIGHT: //Si se detecta la flecha derecha aumentamos la velocidad de simulación
                 speedup();
                 break;
-            case LEFT:
+            case LEFT: //Si se detecta la flecha izquierda disminuimos la velocidad de simulación
                 slowdown();
                 break;
-            default:
+            default: //Si no detecta ninguna de las anteriores mantiene el tiempo de simulación
                 break;
         }
     }
+
+    /**
+     * Método para pausar la simulación
+     */
     public void stop(){
-        SimulatorConfig.stopflag = true;
+        SimulatorConfig.stopflag = true; //Flag para determinar si se ha pausado
         animation.stop();
         Stage2.primary.getScene().removeEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
     }
+
+    /**
+     * Método para acelerar la simulación al doble de delta_t
+     */
     public void speedup(){
        delta_t = delta_t*2;
        
     }
+
+    /**
+     * Método para ralentizar la simulación a la mitad de delta_t
+     */
     public void slowdown(){
        delta_t = delta_t/2;
     }
