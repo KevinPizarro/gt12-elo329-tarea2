@@ -1,4 +1,4 @@
-package Stage2;
+package Stage3;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.paint.Color;
@@ -7,7 +7,7 @@ import javafx.scene.paint.Color;
  * Clase de la representación gráfica de los individos, permite representar a los individuos en la comuna, y manipular dicha representación
  */
 public class PedestrianView {
-    /**
+/**
      * Individuo a representar
      */
     private Pedestrian person;
@@ -29,8 +29,8 @@ public class PedestrianView {
      * @param comuna Comuna a la que pertenece el individuo a representar
      * @param p Individuo a representar
      */
-    public PedestrianView(Comuna comuna, Pedestrian p) {
-        person = p;
+	public PedestrianView(Comuna comuna, Pedestrian p) {
+		person = p;
         view = new Rectangle(SIZE, SIZE, Color.BLUE);
         view.setX(person.getX() - SIZE / 2);   // Rectangle x position is the X coordinate of the
         // upper-left corner of the rectangle
@@ -39,6 +39,9 @@ public class PedestrianView {
         viewc = new Circle(view.getX()+SIZE/2,view.getY()+SIZE/2,SIZE/2,Color.rgb(255,0,0,0.0)); //Creamos el circulo de color transparente centrandolo en el cuadrado anterior
         comuna.getView().getChildren().addAll(view); //Agregamos el cuadrado a la representación de la comuna 
         comuna.getView().getChildren().addAll(viewc); //Agregamos el circulo a la representación de la comuna 
+        if(p.getmask()){//Se muestra gráficamente si el individuo tiene mascarilla o no
+            maskBorder(p);;
+        }
     }
     /**
      * Método para actualizar la posición del circulo y el cuadrado 
@@ -58,16 +61,43 @@ public class PedestrianView {
         viewc.setFill(Color.rgb(0, 0, 0, 0.0)); //Cambiamos el circulo a transparente 
         view.setStroke(Color.rgb(0, 0, 0, 0)); //Colocamos los bordes del cuadrado a transparente 
         viewc.setStroke(Color.rgb(0, 0, 0, 0)); //Colocamos los bordes del circulo a transparente 
+        if(p.getmask()){//Se muestra gráficamente si el individuo tiene mascarilla o no
+            maskBorder(p);;
+        }
     }
     /**
      * Método para cambiar la representación del individuo a la de infectado
      * @param p Individuo al que cambiar 
      * @param y Valor del alfa del color, para ir cambiando la intensidad del color rojo
-     */
+     */    
     public void infectedColor(Pedestrian p, double y){
         viewc.setFill(Color.rgb(255,0,0,y)); //Colocamos el circulo rojo con el alfa definido por el y
         viewc.setStroke(Color.rgb(255, 0, 0, 1)); //Colocamos el borde del circulo rojo intenso
         view.setFill(Color.rgb(0, 0, 0, 0.0)); //Colocamos el cuadrado transparente
         view.setStroke(Color.rgb(0, 0, 0, 0)); //Colocamos el borde del cuadrado transparente
+        if(p.getmask()){//Se muestra gráficamente si el individuo tiene mascarilla o no
+            maskBorder(p);;
+        }
+    }
+    /**
+     * Método para mostrar gráficamente si el individuo porta o no mascarilla
+     * @param p Individuo al que cambiar 
+     */
+    public void maskBorder(Pedestrian p){
+        switch(p.getState()){
+            case S:
+                view.setStroke(Color.BLACK);
+                viewc.setStroke(Color.rgb(0, 0, 0, 0));
+                break;
+            case I:
+                viewc.setStroke(Color.BLACK);
+                view.setStroke(Color.rgb(0, 0, 0, 0));
+                break;
+            case R:
+                view.setStroke(Color.BLACK);
+                viewc.setStroke(Color.rgb(0, 0, 0, 0));
+                break;
+        }
+ 
     }
 }

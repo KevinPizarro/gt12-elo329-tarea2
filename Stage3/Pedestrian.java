@@ -1,4 +1,4 @@
-package Stage2;
+package Stage3;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import java.nio.file.Paths;
@@ -8,7 +8,7 @@ import java.nio.file.Paths;
 public class Pedestrian {
     /**
      * Dirección del archivo de audio
-     */
+     */	
     private static final String MEDIA_URL = "beep.mp3";
     /**
      * Posición en el eje X del individuo
@@ -54,6 +54,10 @@ public class Pedestrian {
      * Tiempo faltante para que el individuo se recupere
      */
     private double rec_time;
+    /**
+	 * Determina si el individuo lleva mascarilla o no
+     */
+    private boolean mask;
 
     /**
      * Constructor de Pedestrian. Inicializa un nuevo individuo
@@ -62,7 +66,7 @@ public class Pedestrian {
      * @param deltaAngle Variación maxima del ángulo del individuo
      */
     public Pedestrian(Comuna comuna, double speed, double deltaAngle){
-        this.comuna = comuna; //Asociamos la comuna al individuo
+    	this.comuna = comuna; //Asociamos la comuna al individuo
         double s = (Math.random()*0.2) + 0.9; //Calculamos el factor que escala la velocidad,entre 0.9 y 1.1
         this.speed = s*speed; //Calculamos la velocidad del individuo
         this.deltaAngle=deltaAngle; //Asociamos la variación del ángulo
@@ -72,11 +76,26 @@ public class Pedestrian {
         this.state = State.S; //El estado inicial del individuo es susceptible
         pedestrianView = new PedestrianView(comuna,this); //Creamos la representación gráfica del individuo
         this.rec_time = 0; //Iniciamos el tiempo de recuperación en 0 ya que no esta infectado
+        this.mask = false; //Inicializa al individuo sin mascarilla
+    }
+
+    /**
+     * Método para colocar la mascarilla al individuo
+     */
+    public void putmask(){
+        this.mask = true;
+        this.pedestrianView.maskBorder(this);
+    }
+    /**
+     * Método para saber si el individuo porta mascarilla
+     */
+    public boolean getmask(){
+        return mask;
     }
     /**
      * Método para obtener la posición en X del individuo
      * @return double con la posición en X del individuo
-     */
+     */    
     public double getX(){
         return x;
     }
@@ -155,7 +174,7 @@ public class Pedestrian {
      * Método para obtener el estado de salud actual del individuo
      * @return Retorna el estado de salud del individuo
      */
-    public State getState(){ 
+    public State getState(){ //retorna estado de persona
         return state;
     }
 }
