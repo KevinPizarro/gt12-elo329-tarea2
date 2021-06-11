@@ -1,7 +1,9 @@
-package Stage2;
+package Stage3;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import javafx.scene.Node;
+import javafx.scene.chart.XYChart;
 import javafx.scene.input.KeyEvent;
 
 /**
@@ -24,16 +26,27 @@ public class Simulator {
     /**
      * Tiempo total de simulación
      */
-    private double simulationTime;
+    private double simulationTime;  
     /**
      * Corresponde al paso de tiempo
      */
-    private static double delta_t;   // precision of discrete simulation time
+    private static double delta_t; 
+    /**
+     * Nodos para darle color y estilo a la linea de los graficos 
+     */
+    private Node lines;
+    private Node linei;
+    private Node liner;
+    /**
+     * Nodos para darle color y estilo a el área de los graficos 
+     */
+    private Node fills;
+    private Node filli;
+    private Node fillr;
 
     /**
-     * Constructor de la clase con 3 parámetros
-     * @param framePerSecond Frecuencia para la actualización de cada vista gráfica
-     * @param simulationTime2realTimeRate Representa que tan rápido se ejecuta la simulación respecto al tiempo real
+     * @param framePerSecond frequency of new views on screen
+     * @param simulationTime2realTimeRate how faster the simulation runs relative to real time
      * @param comuna Representa a la comuna de la simulación.
      */
     public Simulator (double framePerSecond, double simulationTime2realTimeRate, Comuna comuna){
@@ -48,14 +61,40 @@ public class Simulator {
     }
 
     /**
-     * Método para llamar a actualizar de estado y vista la comuna, por ende los individuos
+     * Método para llamar a actualizar de estado y vista la comuna, por ende los individuos además de graficar
      */
     private void takeAction() {
         double nextStop=simulationTime+simulationSamplingTime;
-        for(; simulationTime<nextStop; simulationTime+=delta_t) { //Ciclo for que se ejecuta hasta el tiempo simulationTime
-            comuna.computeNextState(delta_t); // Computa su nuevo estado
-            comuna.updateState();            // Actualiza su nuevo estado
-            comuna.updateView();            // Muesta su nuevo estado
+        for(; simulationTime<nextStop; simulationTime+=delta_t) {
+            comuna.computeNextState(delta_t); // compute its next state based on current global state
+            comuna.updateState();            // update its state
+            comuna.updateView();
+            /**
+            * Actualiza el grafico de áreas apiladas
+            */
+            Stage3.infectados.getData().add(new XYChart.Data<Number,Number>(simulationTime,comuna.getInf()));
+            Stage3.recuperados.getData().add(new XYChart.Data<Number,Number>(simulationTime,comuna.getRec()));
+            Stage3.susceptibles.getData().add(new XYChart.Data<Number,Number>(simulationTime,comuna.getSus()));
+            Stage3.areaChart.getData().remove(Stage3.infectados);
+            Stage3.areaChart.getData().add(Stage3.infectados);
+            Stage3.areaChart.getData().remove(Stage3.recuperados);
+            Stage3.areaChart.getData().add(Stage3.recuperados);
+            Stage3.areaChart.getData().remove(Stage3.susceptibles);
+            Stage3.areaChart.getData().add(Stage3.susceptibles);
+            fills = Stage3.susceptibles.getNode().lookup(".chart-series-area-fill");
+            lines = Stage3.susceptibles.getNode().lookup(".chart-series-area-line");
+            filli = Stage3.infectados.getNode().lookup(".chart-series-area-fill");
+            linei = Stage3.infectados.getNode().lookup(".chart-series-area-line");
+            fillr = Stage3.recuperados.getNode().lookup(".chart-series-area-fill");
+            liner = Stage3.recuperados.getNode().lookup(".chart-series-area-line");
+            filli.setStyle("-fx-fill: rgba(255,0,0,0.5);");
+            linei.setStyle("-fx-stroke: rgba(255,0,0,1);");
+            linei.setStyle("-fx-stroke-dash-array: 7 5 10 7;");
+            fills.setStyle("-fx-fill: rgba(19,96,220,0.5);");
+            lines.setStyle("-fx-stroke: rgba(19,96,220,1);");
+            fillr.setStyle("-fx-fill: rgba(96,46,15,0.5);");
+            liner.setStyle("-fx-stroke: rgba(96,46,15,1);");
+            Stage3.areaChart.setStyle("CHART_COLOR_1: #FF0001 ; CHART_COLOR_2: #602E0F ; CHART_COLOR_3: #1360DC ;");
         }
     }
 
@@ -64,10 +103,10 @@ public class Simulator {
      */
     public void start(){
         stop();
-        Stage2.restart();
+        Stage3.restart();
         SimulatorConfig.stopflag = false;
         animation.play();
-        Stage2.primary.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
+        Stage3.primary.getScene().addEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
     }
 
     /**
@@ -77,7 +116,7 @@ public class Simulator {
     private void keyHandle (KeyEvent e) {
         switch (e.getCode()){
             case RIGHT: //Si se detecta la flecha derecha aumentamos la velocidad de simulación
-                speedup();
+                speedup(); 
                 break;
             case LEFT: //Si se detecta la flecha izquierda disminuimos la velocidad de simulación
                 slowdown();
@@ -91,9 +130,9 @@ public class Simulator {
      * Método para pausar la simulación
      */
     public void stop(){
-        SimulatorConfig.stopflag = true; //Flag para determinar si se ha pausado
+        SimulatorConfig.stopflag = true;
         animation.stop();
-        Stage2.primary.getScene().removeEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
+        Stage3.primary.getScene().removeEventFilter(KeyEvent.KEY_PRESSED, e->keyHandle(e));
     }
 
     /**
