@@ -20,10 +20,8 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 /**
- * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el árchivo con los parametros
- * de la simulación y el archivo fxml.
- * Las instancias de la clase primary, p, sp, bp, sim, m, comuna son ocupados al momento de reiniciar la aplicación
- * svfn, svfi y svfitime son ocupados para detectar y guardar los valores detectados en los spinner de la interfaz de "Settings"
+ * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el archivo con los parametros
+ * de la simulacion y el archivo fxml.
  */
 public class Stage2 extends Application implements Initializable{
     /**
@@ -31,7 +29,7 @@ public class Stage2 extends Application implements Initializable{
      */
     public static String[] arg; //
     /**
-     * Stage principal de la aplicación
+     * Stage principal de la aplicacion
      */
     public static Stage primary;
     /**
@@ -39,7 +37,11 @@ public class Stage2 extends Application implements Initializable{
      */
     public static Pane p;
     /**
-     * Spliotplane de la ventana
+     * Splitplane de la ventana
+     */
+    public static Pane pg;
+    /**
+     * Splitplane de la ventana
      */
     public static SplitPane sp;
     /**
@@ -47,11 +49,11 @@ public class Stage2 extends Application implements Initializable{
      */
     public static BorderPane bp;
     /**
-     * Simulación de la comuna
+     * Simulacion de la comuna
      */
     public static Simulator sim;
     /**
-     * Crea los menus de la aplicación
+     * Crea los menus de la aplicacion
      */
     public static SimulatorMenuBar m;
     /**
@@ -67,7 +69,7 @@ public class Stage2 extends Application implements Initializable{
      */
     private SpinnerValueFactory<Integer> svfi;
     /**
-     * Spinner que lee el tiempo de recuperación luego de ser infectado
+     * Spinner que lee el tiempo de recuperacion luego de ser infectado
      */
     private SpinnerValueFactory<Double> svfitime;
 
@@ -96,9 +98,9 @@ public class Stage2 extends Application implements Initializable{
     private TextField p0;
 
     /**
-     *
+     * Metodo para iniciar la ventana de la aplicacion y sus elementos
      * @param primaryStage EL stage principal del programa
-     * @throws Exception En el caso de que suceda una excepción durante la inicialización del programa
+     * @throws Exception En el caso de que suceda una excepcion durante la inicializacion del programa
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -121,15 +123,16 @@ public class Stage2 extends Application implements Initializable{
         sp.setOrientation(Orientation.VERTICAL);
         bp.setCenter(sp);
         p = new Pane();
+        pg = new Pane();
         p.getChildren().add(comuna.getView());
-        sp.getItems().addAll(p, comuna.getGraph());
+        sp.getItems().addAll(p, pg);
         primaryStage.show();
     }
 
     /**
-     *
-     * @param url Representa una dirección WEB.
-     * @param rb Estos contienen objetos locales especificos para el programa en cuestión, en caso de necesitarlos.
+     * Metodo que inicializa automaticamente los campos de la ventana Settings
+     * @param url Representa una direccion WEB.
+     * @param rb Estos contienen objetos locales especificos para el programa en cuestion, en caso de necesitarlos.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -167,7 +170,7 @@ public class Stage2 extends Application implements Initializable{
     }
 
     /**
-     * Metodo que se encarga de reiniciar la aplicación.
+     * Metodo que se encarga de reiniciar la aplicacion.
      */
     public static void restart(){
         comuna = new Comuna();
@@ -178,12 +181,13 @@ public class Stage2 extends Application implements Initializable{
         sp.setOrientation(Orientation.VERTICAL);
         bp.setCenter(sp);
         p = new Pane();
+        pg = new Pane();
         m = new SimulatorMenuBar(sim);
         bp.setTop(m);
         sp.setOrientation(Orientation.VERTICAL);
         bp.setCenter(sp);
         p.getChildren().add(comuna.getView());
-        sp.getItems().addAll(p, comuna.getGraph());
+        sp.getItems().addAll(p, pg);
     }
 
     /**

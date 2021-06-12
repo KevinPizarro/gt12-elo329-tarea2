@@ -1,12 +1,11 @@
 package Stage2;
 import java.util.ArrayList;
-
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.layout.Pane;
+
 
 /**
- * Genera la comuna donde se realizara el análisis
+ * Genera la comuna donde se realizara el analisis
  */
 public class Comuna {
     /**
@@ -18,7 +17,7 @@ public class Comuna {
     */
     private Rectangle2D territory; 
     /**
-     * Representación visual de la comuna
+     * Representacion visual de la comuna
      */
     private ComunaView view;
 
@@ -37,7 +36,7 @@ public class Comuna {
         */
         personas = new ArrayList<Pedestrian>(SimulatorConfig.N);
         /**
-        * Infecta individuos según los datos del archivos
+        * Infecta individuos segun los datos del archivos
         */
         for(int i=0;i<SimulatorConfig.N;i++){ //Creamos a los individuos de la comuna
             if(i<SimulatorConfig.I){ //Creamos la cantidad indicada de individuos infectados
@@ -54,14 +53,14 @@ public class Comuna {
 
     }
     /**
-     * Método para obtener el ancho de la comuna
+     * Metodo para obtener el ancho de la comuna
      * @return Ancho de la comuna como double 
      */
     public double getWidth() {
         return territory.getWidth();
     }
     /**
-     * Método para obtener el alto de la comuna
+     * Metodo para obtener el alto de la comuna
      * @return Alto de la comuna como double 
      */
     public double getHeight() {
@@ -69,8 +68,7 @@ public class Comuna {
     }
     /**
      * Revisa el estado de los individuos y los actualiza, calculando cuando un individuo se contagia
-     * @param delta_t Variación de tiempo con el que se calcula el siguiente estado
-     * @param simt Tiempo actual de la simulación
+     * @param delta_t Variacion de tiempo con el que se calcula el siguiente estado
      */
     public void computeNextState (double delta_t) {
         for(int i=0;i < personas.size();i++){
@@ -99,7 +97,7 @@ public class Comuna {
         }
     }
     /**
-    * actualiza el estado de cada idividuo
+    * Metodo que actualiza el estado de cada idividuo
     */
     public void updateState () {
         for(int i=0; i<personas.size();i++){
@@ -107,49 +105,24 @@ public class Comuna {
         }
     }
     /**
-     * Método que actualiza la representación gráfica de la comuna y todo en su interior
+     * Metodo que actualiza la representacion grafica de la comuna y todo en su interior
      */
     public void updateView(){
         view.update();
     }
     /**
-     * Método que entrega el arreglo de personas pertenecientes a la comuna 
-     * @return ArrayList<Pedestrian> de los individuos de la comuna
+     * Metodo que entrega el arreglo de personas pertenecientes a la comuna 
+     * @return ArrayList de los individuos de la comuna
      */
     public ArrayList<Pedestrian> getPedestrian() {
         return personas;
     }
 
     /**
-     * Método para obtener la representación gráfica de la comuna
-     * @return Group que contiene la representación gráfica de la comuna
+     * Metodo para obtener la representacion grafica de la comuna
+     * @return Group que contiene la representacion grafica de la comuna
      */
     public Group getView() {
         return view;
-    }
-
-    /**
-     * Método para obtener los estados de los indviduos en string
-     * @return string con los estados de los individuos 
-     */
-    public String getIndState(){
-        int sus=0,inf=0,rec=0;
-        State status;
-        for(int i=0; i<personas.size();i++){
-            status=personas.get(i).getState();
-            switch (status) {
-                case R:
-                    rec++;
-                    break;
-                case I:
-                    inf++;
-                    break;
-                case S:
-                    sus++;
-                    break;
-            }
-        }
-        String s = inf + ",\t" + rec + ",\t" + sus;
-        return s;
     }
  }

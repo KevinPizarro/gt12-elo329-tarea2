@@ -4,29 +4,29 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
-/* 
-*  Representación visual de la comuna 
-*/
+/**
+ * Representacion visual de la comuna 
+ */
 public class ComunaView extends Group {
-    /*
-    * Comuna que se esta representando graficamente
-    */
+    /**
+     * Comuna que se esta representando graficamente
+     */
     private Comuna comuna;
-    
+
+    /**
+     * Constructor de clase ComunaView
+     * @param c comuna donde se realizara el analisis
+     */
     public ComunaView(Comuna c){
-        /* 
-        * Constructor de clase ComunaView
-        * @param comuna donde se realizara el analisis
-        */
         comuna = c;
         Rectangle territoryView = new Rectangle(comuna.getWidth(), comuna.getHeight(), Color.WHITE);
         territoryView.setStroke(Color.BROWN);
         getChildren().add(territoryView);
         setFocusTraversable(true);  // needed to receive mouse and keyboard events.
     }
-    /* 
-    * Actualiza visualmente los componentes adentro de comuna
-    */
+    /**
+     * Actualiza visualmente los componentes adentro de comuna
+     */
     public void update(){
         ArrayList<Pedestrian> personas = comuna.getPedestrian();
         for(int i=0; i<personas.size();i++){

@@ -9,51 +9,51 @@ import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 
 /**
- * Clase para proveer una barra de menú al usuario y cargar el archivo fxml de settings
+ * Clase para proveer una barra de menu al usuario y cargar el archivo fxml de settings
  */
 public class SimulatorMenuBar extends MenuBar {
     /**
-     * Corresponde a dónde se abrirá la ventana de settings
+     * Corresponde a donde se abrira la ventana de settings
      */
     private Parent root;
 
     /**
-     * Constructor de la clase con 1 parámetro
+     * Constructor de la clase con 1 parametro
      * @param simulator Corresponde al simulador
      */
     SimulatorMenuBar (Simulator simulator){
         /**
-         * Creación de menú de control
+         * Creacion de menu de control
          */
         Menu controlMenu = new Menu("Control");
         /**
-         * Creación de menú settings
+         * Creacion de menu settings
          */
         Menu settingsMenu = new Menu("Settings");
-        getMenus().add(controlMenu);//Añade control de menú
+        getMenus().add(controlMenu);//Añade control de menu
         getMenus().add(settingsMenu);//Añade control de settings
         /**
-         * Creación de item Start
+         * Creacion de item Start
          */
         MenuItem start = new MenuItem("Start");
         /**
-         * Creación de item Stop
+         * Creacion de item Stop
          */
         MenuItem stop = new MenuItem("Stop");
-        controlMenu.getItems().addAll(start,stop);//Añade start y stop al menú de control
-        start.setOnAction(e -> simulator.start());//Vincula el método de inicio de simulación al item start
-        stop.setOnAction(e -> simulator.stop());//Vincula el método de detener la simulación al item stop
+        controlMenu.getItems().addAll(start,stop);//Añade start y stop al menu de control
+        start.setOnAction(e -> simulator.start());//Vincula el metodo de inicio de simulacion al item start
+        stop.setOnAction(e -> simulator.stop());//Vincula el metodo de detener la simulacion al item stop
         /**
          * Crea el item dummy
          */
         MenuItem dummy = new MenuItem("");
-        settingsMenu.getItems().add(dummy);//Añade un dummy a menú de settings
+        settingsMenu.getItems().add(dummy);//Añade un dummy a menu de settings
         /**
          * Crea una nueva escena para settings
          */
         Stage secondaryStage = new Stage();
         /**
-         * Manejo de errores, de ser posible cargará el fxml para settings
+         * Manejo de errores, de ser posible cargara el fxml para settings
          */
         try{
             FXMLLoader loader = new FXMLLoader();
@@ -65,12 +65,12 @@ public class SimulatorMenuBar extends MenuBar {
             System.out.println("No se pudo encontrar el archivo.fxml");
         }
 
-        settingsMenu.addEventHandler(Menu.ON_SHOWN, e -> settingsMenu.hide());//Si se  muestra el menú principal se esconde settings
-        settingsMenu.addEventHandler(Menu.ON_SHOWING, e -> settings(secondaryStage));//Si se  muestra el menú settings se esconde el menú principal
+        settingsMenu.addEventHandler(Menu.ON_SHOWN, e -> settingsMenu.hide());//Si se  muestra el menu principal se esconde settings
+        settingsMenu.addEventHandler(Menu.ON_SHOWING, e -> settings(secondaryStage));//Si se  muestra el menu settings se esconde el menu principal
     }
 
     /**
-     * Método para abrir la ventana de settings y cerrar la principal
+     * Metodo para abrir la ventana de settings y cerrar la principal
      * @param secondaryStage Corresponde a la ventana de settings
      */
     public void settings(Stage secondaryStage){
@@ -83,7 +83,7 @@ public class SimulatorMenuBar extends MenuBar {
     }
 
     /**
-     * Método para abrir la ventana principal
+     * Metodo para abrir la ventana principal
      */
     public void abrirmain(){
         Stage2.primary.show();

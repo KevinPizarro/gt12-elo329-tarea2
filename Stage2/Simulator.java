@@ -6,7 +6,7 @@ import javafx.scene.input.KeyEvent;
 
 /**
  * Clase cuya funcionalidad es dar inicio, parar, acelerar, ralentizar y coordinar todos los elementos necesarios
- * para la simulación.
+ * para la simulacion.
  */
 public class Simulator {
     /**
@@ -18,11 +18,11 @@ public class Simulator {
      */
     private Comuna comuna;
     /**
-     * Tiempo de muestreo para la simulación, tiempo entre delta_t
+     * Tiempo de muestreo para la simulacion, tiempo entre delta_t
      */
     private double simulationSamplingTime;
     /**
-     * Tiempo total de simulación
+     * Tiempo total de simulacion
      */
     private double simulationTime;
     /**
@@ -31,10 +31,10 @@ public class Simulator {
     private static double delta_t;   // precision of discrete simulation time
 
     /**
-     * Constructor de la clase con 3 parámetros
-     * @param framePerSecond Frecuencia para la actualización de cada vista gráfica
-     * @param simulationTime2realTimeRate Representa que tan rápido se ejecuta la simulación respecto al tiempo real
-     * @param comuna Representa a la comuna de la simulación.
+     * Constructor de la clase Simulator con 3 parametros
+     * @param framePerSecond Frecuencia para la actualizacion de cada vista grafica
+     * @param simulationTime2realTimeRate Representa que tan rapido se ejecuta la simulacion respecto al tiempo real
+     * @param comuna Representa a la comuna de la simulacion.
      */
     public Simulator (double framePerSecond, double simulationTime2realTimeRate, Comuna comuna){
         this.comuna = comuna;
@@ -48,7 +48,7 @@ public class Simulator {
     }
 
     /**
-     * Método para llamar a actualizar de estado y vista la comuna, por ende los individuos
+     * Metodo para llamar a actualizar de estado y vista la comuna, por ende los individuos
      */
     private void takeAction() {
         double nextStop=simulationTime+simulationSamplingTime;
@@ -60,7 +60,7 @@ public class Simulator {
     }
 
     /**
-     * Método para iniciar la simulación
+     * Metodo para iniciar la simulacion
      */
     public void start(){
         stop();
@@ -71,24 +71,24 @@ public class Simulator {
     }
 
     /**
-     * Método para leer input de teclado, llamando a acelerar o ralentizar la simulación según el caso
+     * Metodo para leer input de teclado, llamando a acelerar o ralentizar la simulacion segun el caso
      * @param e Tecla presionada por el usuario
      */
     private void keyHandle (KeyEvent e) {
         switch (e.getCode()){
-            case RIGHT: //Si se detecta la flecha derecha aumentamos la velocidad de simulación
+            case RIGHT: //Si se detecta la flecha derecha aumentamos la velocidad de simulacion
                 speedup();
                 break;
-            case LEFT: //Si se detecta la flecha izquierda disminuimos la velocidad de simulación
+            case LEFT: //Si se detecta la flecha izquierda disminuimos la velocidad de simulacion
                 slowdown();
                 break;
-            default: //Si no detecta ninguna de las anteriores mantiene el tiempo de simulación
+            default: //Si no detecta ninguna de las anteriores mantiene el tiempo de simulacion
                 break;
         }
     }
 
     /**
-     * Método para pausar la simulación
+     * Metodo para pausar la simulacion
      */
     public void stop(){
         SimulatorConfig.stopflag = true; //Flag para determinar si se ha pausado
@@ -97,7 +97,7 @@ public class Simulator {
     }
 
     /**
-     * Método para acelerar la simulación al doble de delta_t
+     * Metodo para acelerar la simulacion al doble de delta_t
      */
     public void speedup(){
        delta_t = delta_t*2;
@@ -105,7 +105,7 @@ public class Simulator {
     }
 
     /**
-     * Método para ralentizar la simulación a la mitad de delta_t
+     * Metodo para ralentizar la simulacion a la mitad de delta_t
      */
     public void slowdown(){
        delta_t = delta_t/2;
