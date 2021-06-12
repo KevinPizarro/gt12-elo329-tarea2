@@ -4,15 +4,20 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 
+/* 
+*  Representación visual de la comuna 
+*/
 public class ComunaView extends Group {
-    /* 
-    *  Comuna que se esta representando graficamente
+    /*
+    * Comuna que se esta representando graficamente
     */
     private Comuna comuna;
-    /* 
-    * Constructor de clase ComunaView
-    */
+    
     public ComunaView(Comuna c){
+        /* 
+        * Constructor de clase ComunaView
+        * @param comuna donde se realizara el analisis
+        */
         comuna = c;
         Rectangle territoryView = new Rectangle(comuna.getWidth(), comuna.getHeight(), Color.WHITE);
         territoryView.setStroke(Color.BROWN);
