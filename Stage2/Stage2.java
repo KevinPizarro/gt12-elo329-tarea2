@@ -27,17 +27,49 @@ import java.util.ResourceBundle;
  * svfn, svfi y svfitime son ocupados para detectar y guardar los valores detectados en los spinner de la interfaz de "Settings"
  */
 public class Stage2 extends Application implements Initializable{
-
-    public static String[] arg; //Argumentos pasados al inicio.
+    /**
+     * Argumentos pasados al inicio.
+     */
+    public static String[] arg; //
+    /**
+     * Stage principal de la aplicación
+     */
     public static Stage primary;
+    /**
+     * Pane encargado de mostrar la comuna
+     */
     public static Pane p;
+    /**
+     * Spliotplane de la ventana
+     */
     public static SplitPane sp;
+    /**
+     * Borderpane de la ventana
+     */
     public static BorderPane bp;
+    /**
+     * Simulación de la comuna
+     */
     public static Simulator sim;
+    /**
+     * Crea los menus de la aplicación
+     */
     public static SimulatorMenuBar m;
+    /**
+     * La comuna
+     */
     public static Comuna comuna;
+    /**
+     * Spinner que lee la cantidad de individuos
+     */
     private SpinnerValueFactory<Integer> svfn;
+    /**
+     * Spinner que lee la cantidad de infectados
+     */
     private SpinnerValueFactory<Integer> svfi;
+    /**
+     * Spinner que lee el tiempo de recuperación luego de ser infectado
+     */
     private SpinnerValueFactory<Double> svfitime;
 
     /**
