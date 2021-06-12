@@ -24,30 +24,85 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 /**
- * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el árchivo con los parametros
- * de la simulación y el archivo fxml.
- * Las instancias de la clase primary, p, sp, bp, sim, m, comuna son ocupados al momento de reiniciar la aplicación
- * svfn, svfi y svfitime son ocupados para detectar y guardar los valores detectados en los spinner de la interfaz de "Settings"
+ * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el archivo con los parametros
+ * de la simulacion y el archivo fxml.
  */
 public class Stage4 extends Application implements Initializable{
+    /**
+     * String para guardar los parametros de llamada del programa 
+     */
     public static String[] arg;
+    /**
+     * Stage principal de la aplicacion
+     */
     public static Stage primary;
+    /**
+     * Pane donde se ubica la comuna
+     */
     public static Pane p;
+    /**
+     * Pane donde se ubica el grafico
+     */   
     public static Pane pg;
+    /**
+     * Slitpane de la ventana principal de la aplicacion
+     */
     public static SplitPane sp;
+    /**
+     * Borderpane donde se ubica la aplicacion
+     */
     public static BorderPane bp;
+    /**
+     * Variable que contiene el simulador
+     */
     public static Simulator sim;
+    /**
+     * Barra de menu de la ventana principal
+     */
     public static SimulatorMenuBar m;
+    /**
+     * Comuna de la simulacion
+     */
     public static Comuna comuna;
+    /**
+     * Grafico para representar el estado de la pandemia
+     */
     public static StackedAreaChart<Number,Number> areaChart;
+    /**
+     * Eje X del grafico
+     */
     public static NumberAxis xAxis;
+    /**
+     * Eje Y del grafico
+     */
     public static NumberAxis yAxis;
+    /**
+     * Serie para almacenar la cantidad de susceptibles en el tiempo
+     */
     public static XYChart.Series<Number,Number> susceptibles;
+    /**
+     * Serie para almacenar la cantidad de infectados en el tiempo
+     */
     public static XYChart.Series<Number,Number> infectados;
+    /**
+     * Serie para almacenar la cantidad de recuperados en el tiempo
+     */
     public static XYChart.Series<Number,Number> recuperados;
+        /**
+     * Serie para almacenar la cantidad de vacunados en el tiempo
+     */
     public static XYChart.Series<Number,Number> vacunados;
+    /**
+     * Valores del Spinner de N
+     */
     private SpinnerValueFactory<Integer> svfn;
+    /**
+     * Valores del Spinner del I
+     */
     private SpinnerValueFactory<Integer> svfi;
+    /**
+     * Valores del Spinner del I_TIME
+     */
     private SpinnerValueFactory<Double> svfitime;
     
     /**
@@ -89,9 +144,14 @@ public class Stage4 extends Application implements Initializable{
     /**
      *
      * @param primaryStage EL stage principal del programa
-     * @throws Exception En el caso de que suceda una excepción durante la inicialización del programa
+     * @throws Exception En el caso de que suceda una excepcion durante la inicializacion del programa
      */
     @Override
+    /**
+     * Metodo que inicia la aplicacion
+     * @param primaryStage EL stage principal del programa
+     * @throws Exception En el caso de que suceda una excepcion durante la inicializacion del programa
+     */
     public void start(Stage primaryStage) throws Exception{
         primary = primaryStage;
         Parameters param = getParameters();
@@ -137,9 +197,9 @@ public class Stage4 extends Application implements Initializable{
     }
 
     /**
-     *
-     * @param url Representa una dirección WEB.
-     * @param rb Estos contienen objetos locales especificos para el programa en cuestión, en caso de necesitarlos.
+     * Este metodo se utiliza para inicializar los valores de los campos de la ventana settings, es llamado de forma automatica debido a la implementacion de la interfaz initializable
+     * @param url Representa una direccion.
+     * @param rb Estos contienen objetos locales especificos para el programa en cuestion, en caso de necesitarlos.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -189,7 +249,7 @@ public class Stage4 extends Application implements Initializable{
     }
 
     /**
-     * Metodo que se encarga de reiniciar la aplicación.
+     * Metodo que se encarga de reiniciar la aplicacion.
      */
     public static void restart(){
         comuna = new Comuna();

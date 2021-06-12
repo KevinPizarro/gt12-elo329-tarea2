@@ -4,7 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
 /**
- * Clase que permite representar gráficamente la comuna 
+ * Clase que permite representar graficamente la comuna 
  */
 public class ComunaView extends Group {
     /**
@@ -23,7 +23,7 @@ public class ComunaView extends Group {
         setFocusTraversable(true);  // needed to receive mouse and keyboard events.
     }
     /**
-     * Método que actualiza visualmente los componentes de la comuna
+     * Metodo que actualiza visualmente los componentes de la comuna
      */
     public void update(){
         ArrayList<Pedestrian> personas = comuna.getPedestrian();
