@@ -64,16 +64,16 @@ public class Comuna {
     }
 
     /**
-     * retorna el ancho de la comuna
-     * @return
+     *
+     * @return Ancho de la comuna
      */
     public double getWidth() {
         return territory.getWidth();
     }
 
     /**
-     * retorna el alto de la comuna
-     * @return
+     *
+     * @return Alto de la comuna
      */
     public double getHeight() {
         return territory.getHeight();
@@ -115,8 +115,9 @@ public class Comuna {
             personas.get(i).computeNextState(delta_t);
         }
     }
+
     /**
-     * actualiza el estado de cada idividuo
+     * Actualiza el estado de cada idividuo
      */
     public void updateState () {
         for(int i=0; i<personas.size();i++){
@@ -124,33 +125,39 @@ public class Comuna {
         }
     }
     /**
-     * actualiza la representación grafica de la comuna y todo en su interior
+     * Actualiza la representación grafica de la comuna
      */
     public void updateView(){
         view.update();
     }
+
     /**
-     * retorna el arreglo de individuos
+     *
+     * @return Arreglo de individuos
      */
     public ArrayList<Pedestrian> getPedestrian() {
         return personas;
     }
+
     /**
-     * retorna el estado de la representación grafica de la comuna
+     *
+     * @return Estado de la representación grafica de la comuna
      */
     public Group getView() {
         return view;
     }
 
     /**
-     * retorna el pane del gráfico
+     *
+     * @return Pane del gráfico
      */
     public Pane getGraph(){
         return graph;
     }
 
     /**
-     * retorna la cantidad de personas susceptibles
+     *
+     * @return Cantidad de personas susceptibles
      */
     public int getSus(){
         int sus=0;
@@ -166,7 +173,8 @@ public class Comuna {
     }
 
     /**
-     * retorna la cantidad de infectados
+     *
+     * @return Cantidad de infectados
      */
     public int getInf(){
         int inf=0;
@@ -181,7 +189,8 @@ public class Comuna {
     }
 
     /**
-     * retorna la cantidad de recuperados
+     *
+     * @return Cantidad de recuperados
      */
     public int getRec(){
         int rec=0;
