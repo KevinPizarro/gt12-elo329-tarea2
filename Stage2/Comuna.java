@@ -22,30 +22,30 @@ public class Comuna {
      */
     private ComunaView view;
 
+    /**
+    * Constructor de la clase Comuna
+    */
     public Comuna(){
-        /**
-        * Constructor de la clase Comuna
-        */
         double width = SimulatorConfig.WIDTH;
         double length = SimulatorConfig.LENGTH;
         territory = new Rectangle2D(0,0, width, length);
         double speed = SimulatorConfig.SPEED;
         double deltaAngle = SimulatorConfig.DELTA_THETA;
         view = new ComunaView(this); 
-                /**
+        /**
         * Crea el arreglo de individuos
         */
         personas = new ArrayList<Pedestrian>(SimulatorConfig.N);
         /**
         * Infecta individuos según los datos del archivos
         */
-        for(int i=0;i<SimulatorConfig.N;i++){
-            if(i<SimulatorConfig.I){
+        for(int i=0;i<SimulatorConfig.N;i++){ //Creamos a los individuos de la comuna
+            if(i<SimulatorConfig.I){ //Creamos la cantidad indicada de individuos infectados
                 Pedestrian p=new Pedestrian(this, speed, deltaAngle);
                 personas.add(p);
                 personas.get(i).infect();
             }
-            else{
+            else{ //Creamos los individuos susceptibles
                 Pedestrian p=new Pedestrian(this, speed, deltaAngle);
                 personas.add(p);
             }
@@ -54,20 +54,24 @@ public class Comuna {
 
     }
     /**
-    * retorna el ancho de la comuna
-    */
+     * Método para obtener el ancho de la comuna
+     * @return Ancho de la comuna como double 
+     */
     public double getWidth() {
         return territory.getWidth();
     }
     /**
-    * retorna el alto de la comuna
-    */
+     * Método para obtener el alto de la comuna
+     * @return Alto de la comuna como double 
+     */
     public double getHeight() {
         return territory.getHeight();
     }
     /**
-    * revisa el estado de los individuos y los actualiza
-    */
+     * Revisa el estado de los individuos y los actualiza, calculando cuando un individuo se contagia
+     * @param delta_t Variación de tiempo con el que se calcula el siguiente estado
+     * @param simt Tiempo actual de la simulación
+     */
     public void computeNextState (double delta_t) {
         for(int i=0;i < personas.size();i++){
             for(int j=0; j< personas.size();j++){
@@ -103,28 +107,31 @@ public class Comuna {
         }
     }
     /**
-    * actualiza la representación grafica de la comuna y todo en su interior
-    */
+     * Método que actualiza la representación gráfica de la comuna y todo en su interior
+     */
     public void updateView(){
         view.update();
     }
     /**
-    * retorna el arreglo de individuos
-    */
+     * Método que entrega el arreglo de personas pertenecientes a la comuna 
+     * @return ArrayList<Pedestrian> de los individuos de la comuna
+     */
     public ArrayList<Pedestrian> getPedestrian() {
         return personas;
     }
 
     /**
-    * retorna el la representación grafica de la comuna
-    */
+     * Método para obtener la representación gráfica de la comuna
+     * @return Group que contiene la representación gráfica de la comuna
+     */
     public Group getView() {
         return view;
     }
 
     /**
-    * retorna el estado de todos los individuos
-    */
+     * Método para obtener los estados de los indviduos en string
+     * @return string con los estados de los individuos 
+     */
     public String getIndState(){
         int sus=0,inf=0,rec=0;
         State status;
