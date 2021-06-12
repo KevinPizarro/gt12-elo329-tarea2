@@ -1,4 +1,4 @@
-package Stage2;
+package Stage4;
 import java.util.Scanner;
 
 /**
@@ -6,23 +6,78 @@ import java.util.Scanner;
  */
 public class SimulatorConfig {
     /**
-     * N Numero de individuos, I Numero de individuos
-     * I_TIME Tiempo de recuperación de los individuos
-     * WIDTH, LENGHT; Ancho, largo
-     * SPEED: Velocidad, DELTA_T: Variación del tiempo por cada cambio de estado en la simulacion, DELTA_THETA: Rango del angulo al que un individuo podrá moverse
-     * D: Distancia  la cual un individuo se puede infectar con otro, M: Probabilidad de que un indiviuo  use mascarilla,
-     * P0: Probabilidad de contagio cuando ninguno ocupa máscarilla, P1: Probabilidad de contagio cuando uno ocupa mascarilla
-     * P2: Probabilidad de contagio cuando los dos ocupan mascarilla, NUM_VAC: Número de vacunatorios, VAC_SIZE: Tamaño de los vacunatorios,
-     * VAC_TIME: Tiempo a la cual se activan los vacunatorios.
+     * Numero de individuos
      */
-    public static int N, I;
+    public static int N;
+    /**
+     * Numero de individuos infectados
+     */
+    public static int I;
+    /**
+     * Tiempo de recuperación de los individuos
+     */
     public static double I_TIME;
-    public static double WIDTH, LENGTH;
-    public static double SPEED, DELTA_T, DELTA_THETA;
-    public static double D, M, P0, P1, P2;
-    public static int NUM_VAC, VAC_SIZE, VAC_TIME;
+    /**
+     * Ancho de la comuna
+     */
+    public static double WIDTH;
+    /**
+     * Alto de la comuna
+     */
+    public static double LENGTH;
+    /**
+     * Velocidad de movimiento
+     */
+    public static double SPEED;
+    /**
+     * Variación del paso de tiempo
+     */
+    public static double DELTA_T;
+    /**
+     * Variación máxima del ángulo de movimiento
+     */
+    public static double DELTA_THETA;
+    /**
+     * Distancia máxima de contagio
+     */
+    public static double D;
+    /**
+     * Proporción de los individuos con mascarilla
+     */
+    public static double M;
+    /**
+     * Probabilidad de contagio ambos individuos sin mascarilla
+     */
+    public static double P0;
+    /**
+     * Probabilidad de contagio un individuo sin mascarilla
+     */
+    public static double P1;
+    /**
+     * Probabilidad de contagio de ambos individuos con mascarilla
+     */
+    public static double P2;
+    /**
+     * Cantidad de vacunatorios a colocar en la comuna
+     */
+    public static int NUM_VAC;
+    /**
+     * Tamaño del lateral de los vacunatorios
+     */
+    public static int VAC_SIZE;
+    /**
+     * Tiempo para que aparezcan los vacunatorios
+     */
+    public static int VAC_TIME;
+    /**
+     * Bandera que indica si la simulación está en pausa o no
+     */
     public static boolean stopflag = true;
 
+    /**
+     * Constructor de la clase SimulatorConfig.
+     * @param s Scanner donde se encuentran los datos de los parámetros
+     */
     public SimulatorConfig(Scanner s){
         N=s.nextInt(); I= s.nextInt(); I_TIME=s.nextDouble();
         WIDTH=s.nextDouble(); LENGTH= s.nextDouble();

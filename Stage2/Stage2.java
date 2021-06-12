@@ -1,6 +1,5 @@
 package Stage2;
-//java --module-path D:\JDK\FX\lib --add-modules javafx.controls,javafx.fxml,javafx.media Stage2.Stage2 Configuracion.txt
-//javac --module-path D:\JDK\FX\lib --add-modules javafx.controls,javafx.fxml,javafx.media Stage2\Stage2.java
+
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
