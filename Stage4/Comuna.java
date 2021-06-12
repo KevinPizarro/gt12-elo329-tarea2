@@ -1,105 +1,116 @@
-package Stage3;
+package Stage4;
 import java.util.ArrayList;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 /**
- * Genera la comuna donde se realizará el análisis
+ * Clase que maneja la comuna donde se desarrolla la simulación
  */
-
 public class Comuna {
     /**
      * Arreglo de individuos
      */
     private ArrayList<Pedestrian> personas;
     /**
-     * Dimensiones del territorio de la comuna
+     * Arreglo de vacunatorios
      */
-    private Rectangle2D territory;
+    private ArrayList<Rectangle> vacunatorios;
+    /**
+     * Territorio de la comuna
+     */
+    private Rectangle2D territory; // Alternatively: double width, length;
+                                   // but more methods would be needed.
     /**
      * Representación visual de la comuna
      */
     private ComunaView view;
     /**
-     * Pane correspondiente al gráfico.
+     * Variable para confirmar la creación de los vacunatorios
      */
-    private Pane graph;
-
+    private boolean vacFlag; 
+    /**
+     * Constructor de la clase comuna
+     */
     public Comuna(){
-        /**
-         * Constructor de la clase Comuna
-         */
         double width = SimulatorConfig.WIDTH;
         double length = SimulatorConfig.LENGTH;
         territory = new Rectangle2D(0,0, width, length);
         double speed = SimulatorConfig.SPEED;
         double deltaAngle = SimulatorConfig.DELTA_THETA;
-        view = new ComunaView(this);
-        /**
-         * Crea el arreglo de individuos
-         */
+        view = new ComunaView(this); 
         personas = new ArrayList<Pedestrian>(SimulatorConfig.N);
-        /**
-         * Infecta individuos según los datos del archivo
-         */
-        for(int i=0;i<SimulatorConfig.N;i++){
-            if(i<SimulatorConfig.I){
+        vacFlag = true; //Seteamos en true para indicar que no se han colocado los vacunatorios
+        for(int i=0;i<SimulatorConfig.N;i++){ //Creamos a los individuos de la comuna
+            if(i<SimulatorConfig.I){ //Creamos la cantidad indicada de individuos infectados
                 Pedestrian p=new Pedestrian(this, speed, deltaAngle);
                 personas.add(p);
                 personas.get(i).infect();
-                if(i < SimulatorConfig.I*SimulatorConfig.M){
+                if(i < SimulatorConfig.I*SimulatorConfig.M){ //Creamos la cantidad indicada de individuos infectados con mascarilla
                     personas.get(i).putmask();
                 }
             }
-            else{
+            else{ //Creamos los individuos susceptibles
                 Pedestrian p=new Pedestrian(this, speed, deltaAngle);
                 personas.add(p);
-                if(i-SimulatorConfig.I < (SimulatorConfig.N-SimulatorConfig.I)*SimulatorConfig.M){
+                if(i-SimulatorConfig.I < (SimulatorConfig.N-SimulatorConfig.I)*SimulatorConfig.M){  //Creamos la cantidad indicada de individuos susceptibles con mascarilla
                     personas.get(i).putmask();
                 }
             }
         }
-        graph = new Pane();  // to be completed in other stages.
     }
-
     /**
-     * retorna el ancho de la comuna
-     * @return
+     * Método para obtener el ancho de la comuna
+     * @return Ancho de la comuna como double 
      */
     public double getWidth() {
         return territory.getWidth();
     }
-
     /**
-     * retorna el alto de la comuna
-     * @return
+     * Método para obtener el alto de la comuna
+     * @return Alto de la comuna como double 
      */
     public double getHeight() {
         return territory.getHeight();
     }
-
     /**
-     * revisa el estado de los individuos y los actualiza, calculando cuando un individuo se contagia
-     * @param delta_t variación de tiempo con el que se calcula el siguiente estado
+     * Revisa el estado de los individuos y los actualiza, calculando cuando un individuo se contagia
+     * @param delta_t Variación de tiempo con el que se calcula el siguiente estado
+     * @param simt Tiempo actual de la simulación
      */
-    public void computeNextState (double delta_t) {
-        for(int i=0;i < personas.size();i++){
+    public void computeNextState (double delta_t, double simt) {
+        if(SimulatorConfig.VAC_TIME <= simt && vacFlag){ //Si no se han colocado los vacunatorios, y llega el tiempo de colocarlos
+            setvac(); //Colocamos los vacunatorios
+            for(int i = 0; i < SimulatorConfig.NUM_VAC; i++){ //Agregamos los vacunatorios a la representación gráfica
+                getView().getChildren().add(vacunatorios.get(i));
+            }
+            vacFlag = false; //Seteamos en false para no volver a colocar los vacunatorios en esta simulación
+        }
+        for(int i=0;i < personas.size();i++){ //Calculamos que sucede con cada individuo
             for(int j=0; j< personas.size();j++){
-                if(personas.get(i).getState()==State.S && personas.get(j).getState()==State.I){
-                    double e = Math.sqrt(Math.pow(personas.get(i).getX()-personas.get(j).getX(),2)+Math.pow(personas.get(i).getY()-personas.get(j).getY(),2));
-                    if(e < SimulatorConfig.D){
-                        if((personas.get(i).getmask() == true) && (personas.get(j).getmask() == true)){
+                if(simt >= SimulatorConfig.VAC_TIME){ //Si ya empezaron a vacunar
+                    if(personas.get(i).getState() == State.S && existvac(personas.get(i).getX(), personas.get(i).getY())){ 
+                        //Revisamos si el individuo es apto para vacunarse, y si se encuentra en un vacunatorio
+                        personas.get(i).vaccine(); //Vacunamos al individuo
+                    }                    
+                }
+                if(personas.get(i).getState()==State.S && personas.get(j).getState()==State.I){ //Calculamos si debemos infectar al individuo
+                    double e = Math.sqrt(Math.pow(personas.get(i).getX()-personas.get(j).getX(),2)+Math.pow(personas.get(i).getY()-personas.get(j).getY(),2)); //Calculamos la distancia entre los individuos a revisar
+                    if(e < SimulatorConfig.D){ //Si dicha distancia es menor a d
+                        if((personas.get(i).getmask() == true) && (personas.get(j).getmask() == true)){ //Verificamos si ambos ocupan mascarilla
                             if(Math.random() <= SimulatorConfig.P2){
                                 personas.get(i).infect();
                             }
                         }
-                        else if(((personas.get(i).getmask() == true) && (personas.get(j).getmask() == false)) || ((personas.get(i).getmask() == false) && (personas.get(j).getmask() == true))){
+                        else if(((personas.get(i).getmask() == true) && (personas.get(j).getmask() == false)) || ((personas.get(i).getmask() == false) && (personas.get(j).getmask() == true))){ 
+                            //Verificamos si solo uno ocupa mascarilla
                             if(Math.random() <= SimulatorConfig.P1){
                                 personas.get(i).infect();
                             }
                         } 
-                        else{
+                        else{ //Si ninguno tiene mascarilla
                             if(Math.random() <= SimulatorConfig.P0){
                                 personas.get(i).infect();
                             }
@@ -108,15 +119,12 @@ public class Comuna {
                 }
             }
         }
-        /**
-         * calcula el estado de cada individuo
-         */
-        for(int i=0; i<personas.size();i++) {
+        for(int i=0; i<personas.size();i++) { //Calculamos el siguiente estado de cada individuo
             personas.get(i).computeNextState(delta_t);
         }
     }
     /**
-     * actualiza el estado de cada idividuo
+     * Método que actualiza el estado de cada idividuo
      */
     public void updateState () {
         for(int i=0; i<personas.size();i++){
@@ -124,33 +132,28 @@ public class Comuna {
         }
     }
     /**
-     * actualiza la representación grafica de la comuna y todo en su interior
+     * Método que actualiza la representación gráfica de la comuna y todo en su interior
      */
     public void updateView(){
         view.update();
     }
     /**
-     * retorna el arreglo de individuos
+     * Método que entrega el arreglo de personas pertenecientes a la comuna 
+     * @return ArrayList<Pedestrian> de los individuos de la comuna
      */
     public ArrayList<Pedestrian> getPedestrian() {
         return personas;
     }
     /**
-     * retorna el estado de la representación grafica de la comuna
+     * Método para obtener la representación gráfica de la comuna
+     * @return Group que contiene la representación gráfica de la comuna
      */
     public Group getView() {
         return view;
     }
-
     /**
-     * retorna el pane del gráfico
-     */
-    public Pane getGraph(){
-        return graph;
-    }
-
-    /**
-     * retorna la cantidad de personas susceptibles
+     * Método para obtener la cantidad de individuos susceptibles en la simulación
+     * @return int con la cantidad de individuos susceptibles
      */
     public int getSus(){
         int sus=0;
@@ -161,12 +164,11 @@ public class Comuna {
                 sus++;
             }
         }
-        System.out.println(sus);
         return sus;
     }
-
     /**
-     * retorna la cantidad de infectados
+     * Método para obtener la cantidad de individuos infectados en la simulación
+     * @return int con la cantidad de individuos infectados
      */
     public int getInf(){
         int inf=0;
@@ -174,14 +176,14 @@ public class Comuna {
         for(int i=0; i<personas.size();i++){
             status=personas.get(i).getState();
             if(status == State.I){
-                inf++;
+                inf++;-
             }
         }
         return inf;
     }
-
     /**
-     * retorna la cantidad de recuperados
+     * Método para obtener la cantidad de individuos recuperados en la simulación
+     * @return int con la cantidad de individuos recuperados
      */
     public int getRec(){
         int rec=0;
@@ -194,4 +196,102 @@ public class Comuna {
         }
         return rec;
     }
+    /**
+     * Método para obtener la cantidad de individuos vacunados en la simulación
+     * @return int con la cantidad de individuos vacunados
+     */
+    public int getVac(){
+        int vac = 0;
+        State status;
+        for(int i=0; i<personas.size();i++){
+            status=personas.get(i).getState();
+            if(status == State.V){
+                vac++;
+            }
+        }
+        return vac;
+    }
+    /**
+     * Método que coloca los vacunatorios en la comuna
+     */
+    public void setvac(){
+        double x; //Posición en X del vacunatorio a crear
+        double y; //Posición en Y del vacunatorio a crear
+        boolean flag = false; //flag para evitar quedarse atorado en el while en el caso de que la distribución aleatoria no permita ubicar los vacunatorios
+        int cont = 0; //Contador para evitar quedarse atorado en el while en el caso de que la distribución aleatoria no permita ubicar los vacunatorios
+        Rectangle vac; //Vacunatorio a crear
+        Rectangle vac1; //Primer vacunatorio a crear
+        do{ 
+            vacunatorios = new ArrayList<Rectangle>(SimulatorConfig.NUM_VAC);
+            cont = 0;
+            flag = false;
+            for(int i = 0; i < SimulatorConfig.NUM_VAC; i++){
+                x = Math.random()*territory.getWidth();
+                y = Math.random()*territory.getHeight();
+                if(x >= territory.getWidth() - SimulatorConfig.VAC_SIZE){ //Nos aseguramos que el vacunatorio quede dentro de la comuna en X
+                    x -= SimulatorConfig.VAC_SIZE;
+                }
+                if(y >= territory.getHeight() - SimulatorConfig.VAC_SIZE){ //Nos aseguramos que el vacunatorio quede dentro de la comuna en Y
+                    y -= SimulatorConfig.VAC_SIZE;
+                }
+                if(i == 0){ //Si es el primer vacunatorio, lo colocamos en cualquier parte interior de la comuna
+                    vac1 = new Rectangle(x, y, SimulatorConfig.VAC_SIZE, SimulatorConfig.VAC_SIZE);
+                    vac1.setFill(Color.rgb(149, 255, 128, 0.5));
+                    vacunatorios.add(vac1);
+                }
+                else{ //Para todos los vacunatorios menos el primero
+                    vac = new Rectangle(x,y,SimulatorConfig.VAC_SIZE,SimulatorConfig.VAC_SIZE);
+                    if(intervac(vac)){ //Revisamos si el vacunatorio intercepta con alguno de los vacunatorios ya colocados 
+                        while(intervac(vac)){ //Hasta que conseguir una posición que no intercepte ningún vacunatorio anterior, recalculamos X e Y
+                            x = Math.random()*territory.getWidth();
+                            y = Math.random()*territory.getHeight();
+                            if(x >= territory.getWidth() - SimulatorConfig.VAC_SIZE){
+                                x -= SimulatorConfig.VAC_SIZE;
+                            }
+                            if(y >= territory.getHeight() - SimulatorConfig.VAC_SIZE){
+                                y -= SimulatorConfig.VAC_SIZE;
+                            }
+                            vac = new Rectangle(x, y, SimulatorConfig.VAC_SIZE, SimulatorConfig.VAC_SIZE);
+                            cont++; //Contamos cuantas veces se ha intentado ubicar dicho Vacunatorio
+                            if (cont > 10){ //Si llevamos mas de 10 intentos
+                                flag = true; // Seteamos la flag en true y salimos del for
+                                break;
+                            }
+                        }
+                    } //Cuando encontramos un vacunatorio que cumple con las condiciones, lo agregamos al ArrayList
+                    vac = new Rectangle(x, y, SimulatorConfig.VAC_SIZE, SimulatorConfig.VAC_SIZE);
+                    vac.setFill(Color.rgb(149, 255, 128, 0.5));
+                    vacunatorios.add(vac);
+                }
+            }
+        } while (flag); //si la flag se activa, repetimos todo el proceso desde 0
+    }
+    /** 
+     * Método para verificar si existe algún vacunatorio en la posición dada
+     * @param x Coordenada X de la posición
+     * @param y Coordenada Y de la posición
+     * @return bolean que indica si existe o no un vacunatorio en la posición dada
+     */
+    public boolean existvac(double x, double y){
+        for(int i = 0; i < vacunatorios.size(); i++){
+            if(vacunatorios.get(i).contains(x,y)){
+                return true;
+            }
+        }
+        return false;
+    }
+    /**
+     * Método que verifica si el vacunatorio del parametro intersecta alguno de los ya creados en el ArrayList
+     * @param nuevo Vacunatorio a verificar
+     * @return boolean que indica si existe o no un vacunatorio(o mas) que intersecten con el vacunatorio a verificar
+     */
+    public boolean intervac(Rectangle nuevo){
+        for(int i = 0; i < vacunatorios.size(); i++){
+            if(nuevo.intersects(vacunatorios.get(i).getX(),vacunatorios.get(i).getY(),vacunatorios.get(i).getWidth(),vacunatorios.get(i).getHeight())){
+                return true;
+            }
+        }
+        return false;
+    }
+
  }

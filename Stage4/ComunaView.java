@@ -1,16 +1,19 @@
-package Stage3;
+package Stage4;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import java.util.ArrayList;
-
+/**
+ * Clase que permite representar gráficamente la comuna 
+ */
 public class ComunaView extends Group {
-    /*
-     *  Comuna que se esta representando graficamente
+    /**
+     * Comuna a representar
      */
     private Comuna comuna;
-    /*
-     * Constructor de clase ComunaView
+    /**
+     * Constructor de la clase ComunaView
+     * @param c Comuna a representar 
      */
     public ComunaView(Comuna c){
         comuna = c;
@@ -19,8 +22,8 @@ public class ComunaView extends Group {
         getChildren().add(territoryView);
         setFocusTraversable(true);  // needed to receive mouse and keyboard events.
     }
-    /*
-     * Actualiza visualmente los componentes adentro de comuna
+    /**
+     * Método que actualiza visualmente los componentes de la comuna
      */
     public void update(){
         ArrayList<Pedestrian> personas = comuna.getPedestrian();
