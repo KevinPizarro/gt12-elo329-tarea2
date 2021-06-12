@@ -1,6 +1,5 @@
 package Stage4;
-//java --module-path D:\JDK\FX\lib --add-modules javafx.controls,javafx.fxml,javafx.media Stage2.Stage2 Configuracion.txt
-//javac --module-path D:\JDK\FX\lib --add-modules javafx.controls,javafx.fxml,javafx.media Stage2\Stage2.java
+
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -24,7 +23,12 @@ import javafx.scene.chart.StackedAreaChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
-
+/**
+ * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el árchivo con los parametros
+ * de la simulación y el archivo fxml.
+ * Las instancias de la clase primary, p, sp, bp, sim, m, comuna son ocupados al momento de reiniciar la aplicación
+ * svfn, svfi y svfitime son ocupados para detectar y guardar los valores detectados en los spinner de la interfaz de "Settings"
+ */
 public class Stage4 extends Application implements Initializable{
     public static String[] arg;
     public static Stage primary;
@@ -46,7 +50,9 @@ public class Stage4 extends Application implements Initializable{
     private SpinnerValueFactory<Integer> svfi;
     private SpinnerValueFactory<Double> svfitime;
     
-
+    /**
+     * Se definen los metodos implementados en el archivo fxml
+     */
     @FXML
     private Spinner<Integer> nSpinner;
     @FXML
@@ -80,6 +86,11 @@ public class Stage4 extends Application implements Initializable{
     @FXML
     private TextField vacTime;
 
+    /**
+     *
+     * @param primaryStage EL stage principal del programa
+     * @throws Exception En el caso de que suceda una excepción durante la inicialización del programa
+     */
     @Override
     public void start(Stage primaryStage) throws Exception{
         primary = primaryStage;
@@ -124,6 +135,12 @@ public class Stage4 extends Application implements Initializable{
         sp.getItems().addAll(p,pg);
         primaryStage.show();
     }
+
+    /**
+     *
+     * @param url Representa una dirección WEB.
+     * @param rb Estos contienen objetos locales especificos para el programa en cuestión, en caso de necesitarlos.
+     */
     @Override
     public void initialize(URL url, ResourceBundle rb){
         svfn = new SpinnerValueFactory.IntegerSpinnerValueFactory(1,5000,SimulatorConfig.N);
@@ -147,6 +164,9 @@ public class Stage4 extends Application implements Initializable{
         vacTime.setText(String.valueOf(SimulatorConfig.VAC_TIME));
     }
 
+    /**
+     * Metodo que guarda los valores obtenidos de la interfaz de "Settings"
+     */
     public void guardar(){
         try{
             SimulatorConfig.N = nSpinner.getValue();
@@ -167,6 +187,10 @@ public class Stage4 extends Application implements Initializable{
             SimulatorConfig.VAC_TIME = Integer.valueOf(vacTime.getText());
         }catch(Exception e){}
     }
+
+    /**
+     * Metodo que se encarga de reiniciar la aplicación.
+     */
     public static void restart(){
         comuna = new Comuna();
         sim = new Simulator(10,1,comuna);
@@ -202,6 +226,11 @@ public class Stage4 extends Application implements Initializable{
         areaChart.prefWidthProperty().bind(pg.widthProperty());
         sp.getItems().addAll(p,pg);
     }
+
+    /**
+     *  Main del programa
+     * @param args Parametros de entrada.
+     */
     public static void main(String[] args) {
         Locale.setDefault(new Locale("en", "US")); //Para asumir el punto como decimal
         arg = args;

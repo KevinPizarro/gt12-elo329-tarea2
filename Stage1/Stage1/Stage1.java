@@ -1,4 +1,5 @@
 package Stage1;
+
 import javafx.application.Application;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
@@ -11,6 +12,12 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Locale;
 
+/**
+ * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el árchivo con los parametros
+ * de la simulación y el archivo fxml.
+ * Las instancias de la clase primary, p, sp, bp, sim, m, comuna son ocupados al momento de reiniciar la aplicación
+ * svfn, svfi y svfitime son ocupados para detectar y guardar los valores detectados en los spinner de la interfaz de "Settings"
+ */
 public class Stage1 extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -36,6 +43,10 @@ public class Stage1 extends Application {
         primaryStage.show();
     }
 
+    /**
+     *  Main del programa
+     * @param args Parametros de entrada.
+     */
     public static void main(String[] args) {
         Locale.setDefault(new Locale("en", "US")); //Para asumir el punto como decimal
         launch(args);
