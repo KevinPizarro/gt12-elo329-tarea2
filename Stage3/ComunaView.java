@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class ComunaView extends Group {
     /*
-     *  Comuna que se esta representando graficamente
+     *  Comuna que se esta representando gráficamente
      */
     private Comuna comuna;
     /*
