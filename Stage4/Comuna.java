@@ -1,48 +1,29 @@
-package Stage3;
+package Stage4;
 import java.util.ArrayList;
 
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
-/**
- * Genera la comuna donde se realizará el análisis
- */
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 public class Comuna {
-    /**
-     * Arreglo de individuos
-     */
     private ArrayList<Pedestrian> personas;
-    /**
-     * Dimensiones del territorio de la comuna
-     */
-    private Rectangle2D territory;
-    /**
-     * Representación visual de la comuna
-     */
+    private ArrayList<Rectangle> vacunatorios;
+    private Rectangle2D territory; // Alternatively: double width, length;
+                                   // but more methods would be needed.
     private ComunaView view;
-    /**
-     * Pane correspondiente al gráfico.
-     */
     private Pane graph;
-
+    private boolean vacFlag; //Variable para confirmar la creación de los vacunatorios
     public Comuna(){
-        /**
-         * Constructor de la clase Comuna
-         */
         double width = SimulatorConfig.WIDTH;
         double length = SimulatorConfig.LENGTH;
         territory = new Rectangle2D(0,0, width, length);
         double speed = SimulatorConfig.SPEED;
         double deltaAngle = SimulatorConfig.DELTA_THETA;
-        view = new ComunaView(this);
-        /**
-         * Crea el arreglo de individuos
-         */
+        view = new ComunaView(this); // What if you exchange this and the follow line?
         personas = new ArrayList<Pedestrian>(SimulatorConfig.N);
-        /**
-         * Infecta individuos según los datos del archivo
-         */
+        vacFlag = true;
         for(int i=0;i<SimulatorConfig.N;i++){
             if(i<SimulatorConfig.I){
                 Pedestrian p=new Pedestrian(this, speed, deltaAngle);
@@ -62,30 +43,27 @@ public class Comuna {
         }
         graph = new Pane();  // to be completed in other stages.
     }
-
-    /**
-     * retorna el ancho de la comuna
-     * @return
-     */
     public double getWidth() {
         return territory.getWidth();
     }
-
-    /**
-     * retorna el alto de la comuna
-     * @return
-     */
     public double getHeight() {
         return territory.getHeight();
     }
-
-    /**
-     * revisa el estado de los individuos y los actualiza, calculando cuando un individuo se contagia
-     * @param delta_t variación de tiempo con el que se calcula el siguiente estado
-     */
-    public void computeNextState (double delta_t) {
+    public void computeNextState (double delta_t, double simt) {
+        if(SimulatorConfig.VAC_TIME <= simt && vacFlag){
+            setvac();
+            for(int i = 0; i < SimulatorConfig.NUM_VAC; i++){
+                getView().getChildren().add(vacunatorios.get(i));
+            }
+            vacFlag = false;
+        }
         for(int i=0;i < personas.size();i++){
             for(int j=0; j< personas.size();j++){
+                if(simt >= SimulatorConfig.VAC_TIME){
+                    if(personas.get(i).getState() == State.S && existvac(personas.get(i).getX(), personas.get(i).getY())){
+                        personas.get(i).vaccine();
+                    }                    
+                }
                 if(personas.get(i).getState()==State.S && personas.get(j).getState()==State.I){
                     double e = Math.sqrt(Math.pow(personas.get(i).getX()-personas.get(j).getX(),2)+Math.pow(personas.get(i).getY()-personas.get(j).getY(),2));
                     if(e < SimulatorConfig.D){
@@ -108,50 +86,27 @@ public class Comuna {
                 }
             }
         }
-        /**
-         * calcula el estado de cada individuo
-         */
         for(int i=0; i<personas.size();i++) {
             personas.get(i).computeNextState(delta_t);
         }
     }
-    /**
-     * actualiza el estado de cada idividuo
-     */
     public void updateState () {
         for(int i=0; i<personas.size();i++){
             personas.get(i).updateState();
         }
     }
-    /**
-     * actualiza la representación grafica de la comuna y todo en su interior
-     */
     public void updateView(){
         view.update();
     }
-    /**
-     * retorna el arreglo de individuos
-     */
     public ArrayList<Pedestrian> getPedestrian() {
         return personas;
     }
-    /**
-     * retorna el estado de la representación grafica de la comuna
-     */
     public Group getView() {
         return view;
     }
-
-    /**
-     * retorna el pane del gráfico
-     */
     public Pane getGraph(){
         return graph;
     }
-
-    /**
-     * retorna la cantidad de personas susceptibles
-     */
     public int getSus(){
         int sus=0;
         State status;
@@ -161,13 +116,8 @@ public class Comuna {
                 sus++;
             }
         }
-        System.out.println(sus);
         return sus;
     }
-
-    /**
-     * retorna la cantidad de infectados
-     */
     public int getInf(){
         int inf=0;
         State status;
@@ -179,10 +129,6 @@ public class Comuna {
         }
         return inf;
     }
-
-    /**
-     * retorna la cantidad de recuperados
-     */
     public int getRec(){
         int rec=0;
         State status;
@@ -194,4 +140,84 @@ public class Comuna {
         }
         return rec;
     }
+    public int getVac(){
+        int vac = 0;
+        State status;
+        for(int i=0; i<personas.size();i++){
+            status=personas.get(i).getState();
+            if(status == State.V){
+                vac++;
+            }
+        }
+        return vac;
+    }
+    public void setvac(){
+        double x;
+        double y;
+        boolean flag = false;
+        int cont = 0;
+        Rectangle vac;
+        Rectangle vac1;
+        do{ 
+            vacunatorios = new ArrayList<Rectangle>(SimulatorConfig.NUM_VAC);
+            cont = 0;
+            flag = false;
+            for(int i = 0; i < SimulatorConfig.NUM_VAC; i++){
+                x = Math.random()*territory.getWidth();
+                y = Math.random()*territory.getHeight();
+                if(x >= territory.getWidth() - SimulatorConfig.VAC_SIZE){
+                    x -= SimulatorConfig.VAC_SIZE;
+                }
+                if(y >= territory.getHeight() - SimulatorConfig.VAC_SIZE){
+                    y -= SimulatorConfig.VAC_SIZE;
+                }
+                if(i == 0){
+                    vac1 = new Rectangle(x, y, SimulatorConfig.VAC_SIZE, SimulatorConfig.VAC_SIZE);
+                    vac1.setFill(Color.rgb(149, 255, 128, 0.5));
+                    vacunatorios.add(vac1);
+                }
+                else{
+                    vac = new Rectangle(x,y,SimulatorConfig.VAC_SIZE,SimulatorConfig.VAC_SIZE);
+                    if(intervac(vac)){
+                        while(intervac(vac)){
+                            x = Math.random()*territory.getWidth();
+                            y = Math.random()*territory.getHeight();
+                            if(x >= territory.getWidth() - SimulatorConfig.VAC_SIZE){
+                                x -= SimulatorConfig.VAC_SIZE;
+                            }
+                            if(y >= territory.getHeight() - SimulatorConfig.VAC_SIZE){
+                                y -= SimulatorConfig.VAC_SIZE;
+                            }
+                            vac = new Rectangle(x, y, SimulatorConfig.VAC_SIZE, SimulatorConfig.VAC_SIZE);
+                            cont++;
+                            if (cont > 10){
+                                flag = true;
+                                break;
+                            }
+                        }
+                    }
+                    vac = new Rectangle(x, y, SimulatorConfig.VAC_SIZE, SimulatorConfig.VAC_SIZE);
+                    vac.setFill(Color.rgb(149, 255, 128, 0.5));
+                    vacunatorios.add(vac);
+                }
+            }
+        } while (flag);
+    }
+    public boolean existvac(double x, double y){
+        for(int i = 0; i < vacunatorios.size(); i++){
+            if(vacunatorios.get(i).contains(x,y)){
+                return true;
+            }
+        }
+        return false;
+    }
+    public boolean intervac(Rectangle nuevo){
+        for(int i = 0; i < vacunatorios.size(); i++){
+            if(nuevo.intersects(vacunatorios.get(i).getX(),vacunatorios.get(i).getY(),vacunatorios.get(i).getWidth(),vacunatorios.get(i).getHeight())){
+                return true;
+            }
+        }
+        return false;
+    }
+
  }
