@@ -14,12 +14,15 @@ import java.util.Locale;
 
 /**
  * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el árchivo con los parametros
- * de la simulación y el archivo fxml.
- * Las instancias de la clase primary, p, sp, bp, sim, m, comuna son ocupados al momento de reiniciar la aplicación
- * svfn, svfi y svfitime son ocupados para detectar y guardar los valores detectados en los spinner de la interfaz de "Settings"
+ * de la simulación.
  */
 public class Stage1 extends Application {
     @Override
+    /**
+     * Metodo para iniciar la ventana de la aplicacion y sus elementos
+     * @param primaryStage EL stage principal del programa
+     * @throws Exception En el caso de que suceda una excepción durante la inicialización del programa
+     */
     public void start(Stage primaryStage) throws Exception{
         Parameters param = getParameters();
         List<String> rawParam = param.getRaw();
@@ -39,7 +42,7 @@ public class Stage1 extends Application {
         borderPane.setCenter(splitPane);
         Pane pane = new Pane();
         pane.getChildren().add(comuna.getView());
-        splitPane.getItems().addAll(pane, comuna.getGraph());
+        splitPane.getItems().addAll(pane);
         primaryStage.show();
     }
 

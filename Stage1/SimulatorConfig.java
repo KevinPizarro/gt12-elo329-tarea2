@@ -1,4 +1,4 @@
-package Stage2;
+package Stage1;
 import java.util.Scanner;
 
 /**
@@ -14,7 +14,7 @@ public class SimulatorConfig {
      */
     public static int I;
     /**
-     * Tiempo de recuperación de los individuos
+     * Tiempo de recuperacion de los individuos
      */
     public static double I_TIME;
     /**
@@ -30,19 +30,19 @@ public class SimulatorConfig {
      */
     public static double SPEED;
     /**
-     * Variación del paso de tiempo
+     * Variacion del paso de tiempo
      */
     public static double DELTA_T;
     /**
-     * Variación máxima del ángulo de movimiento
+     * Variacion maxima del angulo de movimiento
      */
     public static double DELTA_THETA;
     /**
-     * Distancia máxima de contagio
+     * Distancia maxima de contagio
      */
     public static double D;
     /**
-     * Proporción de los individuos con mascarilla
+     * Proporcion de los individuos con mascarilla
      */
     public static double M;
     /**
@@ -62,7 +62,7 @@ public class SimulatorConfig {
      */
     public static int NUM_VAC;
     /**
-     * Tamaño del lateral de los vacunatorios
+     * Tamano del lateral de los vacunatorios
      */
     public static int VAC_SIZE;
     /**
@@ -72,7 +72,7 @@ public class SimulatorConfig {
 
     /**
      * Constructor de la clase SimulatorConfig.
-     * @param s Scanner donde se encuentran los datos de los parámetros
+     * @param s Scanner donde se encuentran los datos de los parametros
      */
     public SimulatorConfig(Scanner s){
         N=s.nextInt(); I= s.nextInt(); I_TIME=s.nextDouble();

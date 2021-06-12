@@ -1,12 +1,51 @@
 package Stage1;
-import javafx.scene.Group;
 
+/**
+ * Clase de los individuos, contiene todos la informacion del individuo, asi como los metodos que utilizan al mismo
+ */
 public class Pedestrian {
-    private double x, y, speed, angle, deltaAngle;
-    private double x_tPlusDelta, y_tPlusDelta;
+    /**
+     * Posicion en el eje X del individuo
+     */
+    private double x;
+    /**
+     * Posicion en el eje Y del individuo
+     */
+    private double y;
+    /**
+     * Velocidad del individuo
+     */
+    private double speed;
+    /**
+     * Angulo al que se dirige el individuo
+     */
+    private double angle;
+    /**
+     * Variacion maxima del angulo del individuo
+     */
+    private double deltaAngle;
+    /**
+     * Variable auxiliar para la nueva posicion en X
+     */
+    private double x_tPlusDelta;
+    /**
+     * Variable auxiliar para la nueva posicion en Y
+     */
+    private double y_tPlusDelta;
+    /**
+     * Comuna a la que pertenece el individuo
+     */
     private Comuna comuna;
+    /**
+     * Icono que representa al individuo en la comuna
+     */
     private PedestrianView pedestrianView;
-
+    /**
+     * Constructor de Pedestrian. Inicializa un nuevo individuo
+     * @param comuna Comuna a la que pertenece el individuo
+     * @param speed Velocidad a la que se va a mover el individuo
+     * @param deltaAngle Variacion maxima del angulo del individuo
+     */
     public Pedestrian(Comuna comuna, double speed, double deltaAngle){
         this.comuna = comuna;
         this.speed = speed;
@@ -16,12 +55,24 @@ public class Pedestrian {
         angle = Math.random()*2*Math.PI;
         pedestrianView = new PedestrianView(comuna,this);
     }
+    /**
+     * Metodo para obtener la posicion en X del individuo
+     * @return double con la posicion en X del individuo
+     */
     public double getX(){
         return x;
     }
+    /**
+     * Metodo para obtener la posicion en Y del individuo
+     * @return double con la posicion en Y del individuo
+     */
     public double getY() {
         return y;
     }
+    /**
+     * Metodo para calcular el siguiente estado del individuo
+     * @param delta_t Cantidad de tiempo que ha pasado desde el calculo anterior 
+     */
     public void computeNextState(double delta_t) {
         double r=Math.random();
         angle+=deltaAngle*(1-2*r);
@@ -44,10 +95,16 @@ public class Pedestrian {
             angle=2*Math.PI-angle;
         }
     }
+    /**
+     * Metodo para actualizar la posicion del individuo
+     */
     public void updateState(){
         x=x_tPlusDelta;
         y=y_tPlusDelta;
     }
+    /**
+     * Metodo para actualizar la posicion del individuo graficamente
+     */
     public void updateView() {
         pedestrianView.update();
     }
