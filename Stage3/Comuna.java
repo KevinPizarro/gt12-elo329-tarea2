@@ -1,13 +1,11 @@
 package Stage3;
 import java.util.ArrayList;
-
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Group;
-import javafx.scene.layout.Pane;
-/**
- * Genera la comuna donde se realizará el análisis
- */
 
+/**
+ * Genera la comuna donde se realizara el analisis
+ */
 public class Comuna {
     /**
      * Arreglo de individuos
@@ -18,18 +16,15 @@ public class Comuna {
      */
     private Rectangle2D territory;
     /**
-     * Representación visual de la comuna
+     * Representacion visual de la comuna
      */
     private ComunaView view;
-    /**
-     * Pane correspondiente al gráfico.
-     */
-    private Pane graph;
 
+    /**
+     * Constructor de la clase Comuna
+     */
     public Comuna(){
-        /**
-         * Constructor de la clase Comuna
-         */
+
         double width = SimulatorConfig.WIDTH;
         double length = SimulatorConfig.LENGTH;
         territory = new Rectangle2D(0,0, width, length);
@@ -41,7 +36,7 @@ public class Comuna {
          */
         personas = new ArrayList<Pedestrian>(SimulatorConfig.N);
         /**
-         * Infecta individuos según los datos del archivo
+         * Infecta individuos segun los datos del archivo
          */
         for(int i=0;i<SimulatorConfig.N;i++){
             if(i<SimulatorConfig.I){
@@ -60,28 +55,27 @@ public class Comuna {
                 }
             }
         }
-        graph = new Pane();  // to be completed in other stages.
     }
 
     /**
-     *
-     * @return Ancho de la comuna
+     * Metodo para obtener el ancho de la comuna
+     * @return Ancho de la comuna como double
      */
     public double getWidth() {
         return territory.getWidth();
     }
 
     /**
-     *
-     * @return Alto de la comuna
+     * Metodo para obtener el alto de la comuna
+     * @return Alto de la comuna como double
      */
     public double getHeight() {
         return territory.getHeight();
     }
 
     /**
-     * revisa el estado de los individuos y los actualiza, calculando cuando un individuo se contagia
-     * @param delta_t variación de tiempo con el que se calcula el siguiente estado
+     * Metodo que revisa el estado de los individuos y los actualiza, calculando cuando un individuo se contagia
+     * @param delta_t variacion de tiempo con el que se calcula el siguiente estado
      */
     public void computeNextState (double delta_t) {
         for(int i=0;i < personas.size();i++){
@@ -117,7 +111,7 @@ public class Comuna {
     }
 
     /**
-     * Actualiza el estado de cada idividuo
+     * Metodo que actualiza el estado de cada idividuo
      */
     public void updateState () {
         for(int i=0; i<personas.size();i++){
@@ -125,14 +119,14 @@ public class Comuna {
         }
     }
     /**
-     * Actualiza la representación grafica de la comuna
+     * Metodo que actualiza la representacion grafica de la comuna
      */
     public void updateView(){
         view.update();
     }
 
     /**
-     *
+     * Metodo para obtener los individuos pertenecientes a la comuna
      * @return Arreglo de individuos
      */
     public ArrayList<Pedestrian> getPedestrian() {
@@ -140,23 +134,15 @@ public class Comuna {
     }
 
     /**
-     *
-     * @return Estado de la representación grafica de la comuna
+     * Metodo para obtener la representacion grafica de la comuna 
+     * @return Group de la representacion grafica de la comuna
      */
     public Group getView() {
         return view;
     }
 
     /**
-     *
-     * @return Pane del gráfico
-     */
-    public Pane getGraph(){
-        return graph;
-    }
-
-    /**
-     *
+     * Metodo para obtener la cantidad de individuos susceptibles
      * @return Cantidad de personas susceptibles
      */
     public int getSus(){
@@ -168,12 +154,11 @@ public class Comuna {
                 sus++;
             }
         }
-        System.out.println(sus);
         return sus;
     }
 
     /**
-     *
+     * Metodo para obtener la cantidad de individuos infectados
      * @return Cantidad de infectados
      */
     public int getInf(){
@@ -189,7 +174,7 @@ public class Comuna {
     }
 
     /**
-     *
+     * Metodo para obtener la cantidad de individuos recuperados
      * @return Cantidad de recuperados
      */
     public int getRec(){

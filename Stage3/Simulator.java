@@ -8,7 +8,7 @@ import javafx.scene.input.KeyEvent;
 
 /**
  * Clase cuya funcionalidad es dar inicio, parar, acelerar, ralentizar y coordinar todos los elementos necesarios
- * para la simulación.
+ * para la simulacion.
  */
 public class Simulator {
     /**
@@ -20,11 +20,11 @@ public class Simulator {
      */
     private Comuna comuna;
     /**
-     * Tiempo de muestreo para la simulación, tiempo entre delta_t
+     * Tiempo de muestreo para la simulacion, tiempo entre delta_t
      */
     private double simulationSamplingTime;
     /**
-     * Tiempo total de simulación
+     * Tiempo total de simulacion
      */
     private double simulationTime;  
     /**
@@ -32,22 +32,35 @@ public class Simulator {
      */
     private static double delta_t; 
     /**
-     * Nodos para darle color y estilo a la linea de los graficos 
+     * Nodo para darle color y estilo a la linea de los susceptibles en el grafico
      */
     private Node lines;
+    /**
+     * Nodo para darle color y estilo a la linea de los infectados en el grafico
+     */
     private Node linei;
+    /**
+     * Nodo para darle color y estilo a la linea de los recuperados en el grafico
+     */
     private Node liner;
     /**
-     * Nodos para darle color y estilo a el área de los graficos 
+     * Nodo para darle color al area de los susceptibles en el grafico 
      */
     private Node fills;
+    /**
+     * Nodo para darle color al area de los infectadoss en el grafico 
+     */
     private Node filli;
+    /**
+     * Nodo para darle color al area de los recuperados en el grafico 
+     */
     private Node fillr;
 
     /**
+     * Constructor de la clase Simulator
      * @param framePerSecond frequency of new views on screen
      * @param simulationTime2realTimeRate how faster the simulation runs relative to real time
-     * @param comuna Representa a la comuna de la simulación.
+     * @param comuna Representa a la comuna de la simulacion.
      */
     public Simulator (double framePerSecond, double simulationTime2realTimeRate, Comuna comuna){
         this.comuna = comuna;
@@ -61,7 +74,7 @@ public class Simulator {
     }
 
     /**
-     * Método para llamar a actualizar de estado y vista la comuna, por ende los individuos además de graficar
+     * Metodo para llamar a actualizar de estado y vista la comuna, ademas de actualizar el grafico
      */
     private void takeAction() {
         double nextStop=simulationTime+simulationSamplingTime;
@@ -70,7 +83,7 @@ public class Simulator {
             comuna.updateState();            // update its state
             comuna.updateView();
             /**
-            * Actualiza el grafico de áreas apiladas
+            * Actualiza el grafico de areas apiladas
             */
             Stage3.infectados.getData().add(new XYChart.Data<Number,Number>(simulationTime,comuna.getInf()));
             Stage3.recuperados.getData().add(new XYChart.Data<Number,Number>(simulationTime,comuna.getRec()));
@@ -99,7 +112,7 @@ public class Simulator {
     }
 
     /**
-     * Método para iniciar la simulación
+     * Metodo para iniciar la simulacion
      */
     public void start(){
         stop();
@@ -110,24 +123,24 @@ public class Simulator {
     }
 
     /**
-     * Método para leer input de teclado, llamando a acelerar o ralentizar la simulación según el caso
+     * Metodo para leer input de teclado, llamando a acelerar o ralentizar la simulacion segun el caso
      * @param e Tecla presionada por el usuario
      */
     private void keyHandle (KeyEvent e) {
         switch (e.getCode()){
-            case RIGHT: //Si se detecta la flecha derecha aumentamos la velocidad de simulación
+            case RIGHT: //Si se detecta la flecha derecha aumentamos la velocidad de simulacion
                 speedup(); 
                 break;
-            case LEFT: //Si se detecta la flecha izquierda disminuimos la velocidad de simulación
+            case LEFT: //Si se detecta la flecha izquierda disminuimos la velocidad de simulacion
                 slowdown();
                 break;
-            default: //Si no detecta ninguna de las anteriores mantiene el tiempo de simulación
+            default: //Si no detecta ninguna de las anteriores mantiene el tiempo de simulacion
                 break;
         }
     }
 
     /**
-     * Método para pausar la simulación
+     * Metodo para pausar la simulacion
      */
     public void stop(){
         SimulatorConfig.stopflag = true;
@@ -136,7 +149,7 @@ public class Simulator {
     }
 
     /**
-     * Método para acelerar la simulación al doble de delta_t
+     * Metodo para acelerar la simulacion al doble de delta_t
      */
     public void speedup(){
        delta_t = delta_t*2;
@@ -144,7 +157,7 @@ public class Simulator {
     }
 
     /**
-     * Método para ralentizar la simulación a la mitad de delta_t
+     * Metodo para ralentizar la simulacion a la mitad de delta_t
      */
     public void slowdown(){
        delta_t = delta_t/2;

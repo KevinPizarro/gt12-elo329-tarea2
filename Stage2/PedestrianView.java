@@ -20,7 +20,7 @@ public class PedestrianView {
      */
     private Circle viewc;
     /**
-     * Tamaño de la representacion
+     * Tamano de la representacion
      */
     private final double SIZE = 5;
 

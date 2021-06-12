@@ -23,16 +23,16 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 
 /**
- * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el árchivo con los parametros
- * de la simulación y el archivo fxml.
+ * Clase principal del programa que se encarga de recibir los parametros de entrada, tal como el archivo con los parametros
+ * de la simulacion y el archivo fxml.
  */
 public class Stage3 extends Application implements Initializable{
     /**
-     * String para guardar los parámetros de llamada del programa 
+     * String para guardar los parametros de llamada del programa 
      */
     public static String[] arg;
     /**
-     * Stage principal de la aplicación
+     * Stage principal de la aplicacion
      */
     public static Stage primary;
     /**
@@ -40,15 +40,15 @@ public class Stage3 extends Application implements Initializable{
      */
     public static Pane p;
     /**
-     * Pane donde se ubica el gráfico
+     * Pane donde se ubica el grafico
      */
     public static Pane pg;
     /**
-     * Slitpane de la ventana principal de la aplicación
+     * Slitpane de la ventana principal de la aplicacion
      */
     public static SplitPane sp;
     /**
-     * Borderpane donde se ubica la aplicación
+     * Borderpane donde se ubica la aplicacion
      */
     public static BorderPane bp;
     /**
@@ -60,19 +60,19 @@ public class Stage3 extends Application implements Initializable{
      */
     public static SimulatorMenuBar m;
     /**
-     * Comuna de la simulación
+     * Comuna de la simulacion
      */
     public static Comuna comuna;
     /**
-     * Gráfico para representar el estado de la pandemia
+     * Grafico para representar el estado de la pandemia
      */
     public static StackedAreaChart<Number,Number> areaChart;
     /**
-     * Eje X del gráfico
+     * Eje X del grafico
      */
     public static NumberAxis xAxis;
     /**
-     * Eje Y del gráfico
+     * Eje Y del grafico
      */
     public static NumberAxis yAxis;
     /**
@@ -131,9 +131,9 @@ public class Stage3 extends Application implements Initializable{
     private TextField p2;
     
     /**
-     *
+     * Metodo que inicia la aplicacion
      * @param primaryStage EL stage principal del programa
-     * @throws Exception En el caso de que suceda una excepción durante la inicialización del programa
+     * @throws Exception En el caso de que suceda una excepcion durante la inicializacion del programa
      */
     @Override
     public void start(Stage primaryStage) throws Exception{
@@ -149,13 +149,13 @@ public class Stage3 extends Application implements Initializable{
         primaryStage.setScene(new Scene(bp, 600, 600));
         SimulatorConfig config = new SimulatorConfig(new Scanner(new File(rawParam.get(0))));
         comuna = new Comuna();
-        xAxis = new NumberAxis(); //Creamos los ejes del gráfico
+        xAxis = new NumberAxis(); //Creamos los ejes del grafico
         yAxis = new NumberAxis();
         xAxis.setLabel("Time"); //Colocamos el nombre del eje X
-        areaChart = new StackedAreaChart<Number,Number>(xAxis,yAxis); //Creamos el gráfico
+        areaChart = new StackedAreaChart<Number,Number>(xAxis,yAxis); //Creamos el grafico
         areaChart.setAnimated(false); 
         areaChart.setCreateSymbols(false);
-        areaChart.setTitle("Evolucion de la pandemia"); //Titulo del gráfico
+        areaChart.setTitle("Evolucion de la pandemia"); //Titulo del grafico
         susceptibles = new XYChart.Series<Number,Number>(); //Creamos la serie para almacenar los datos de los individuos susceptibles
         infectados = new XYChart.Series<Number,Number>(); //Creamos la serie para almacenar los datos de los individuos infectados
         recuperados = new XYChart.Series<Number,Number>(); //Creamos la serie para almacenar los datos de los individuos recuperados
@@ -172,15 +172,15 @@ public class Stage3 extends Application implements Initializable{
         p.getChildren().add(comuna.getView());
         pg = new Pane();
         pg.getChildren().addAll(areaChart);
-        areaChart.prefHeightProperty().bind(pg.heightProperty()); //Unimos el alto del gráfico con el del pane que lo contiene
-        areaChart.prefWidthProperty().bind(pg.widthProperty()); //Unimos el ancho del gráfico con el del pane que lo contiene
+        areaChart.prefHeightProperty().bind(pg.heightProperty()); //Unimos el alto del grafico con el del pane que lo contiene
+        areaChart.prefWidthProperty().bind(pg.widthProperty()); //Unimos el ancho del grafico con el del pane que lo contiene
         sp.getItems().addAll(p,pg);
         primaryStage.show();
     }
     /**
-     * Este método se utiliza para inicializar los valores de los campos de la ventana settings, es llamado de forma automatica debido a la implementación de la interfaz initializable
-     * @param url Representa una dirección.
-     * @param rb Estos contienen objetos locales especificos para el programa en cuestión, en caso de necesitarlos.
+     * Este metodo se utiliza para inicializar los valores de los campos de la ventana settings, es llamado de forma automatica debido a la implementacion de la interfaz initializable
+     * @param url Representa una direccion.
+     * @param rb Estos contienen objetos locales especificos para el programa en cuestion, en caso de necesitarlos.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb){
@@ -224,12 +224,12 @@ public class Stage3 extends Application implements Initializable{
     }
 
     /**
-    * Metodo que se encarga de reiniciar la aplicación.
+    * Metodo que se encarga de reiniciar la aplicacion.
     */
     public static void restart(){
         comuna = new Comuna(); //Creamos una nueva comuna 
         sim = new Simulator(10,1,comuna); //Creamos un nuevo simulador 
-        xAxis = new NumberAxis(); //Creamos un nuevo gráfico 
+        xAxis = new NumberAxis(); //Creamos un nuevo grafico 
         yAxis = new NumberAxis();
         xAxis.setLabel("Time");
         areaChart = new StackedAreaChart<Number,Number>(xAxis,yAxis);
