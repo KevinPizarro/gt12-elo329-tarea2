@@ -6,13 +6,13 @@ JC = $(JAVAC) --module-path $(PATH) --add-modules javafx.controls,javafx.fxml,ja
 JVM= $(JAVA) --module-path $(PATH) --add-modules javafx.controls,javafx.fxml,javafx.media
 FILE= configurationFile.txt
 
-MAIN = Stage2
+MAIN = Stage4
 
 default:
 	$(JC) *.java
 
 run: 
-	$(JVM) Stage2 $(FILE)
+	$(JVM) Stage4 $(FILE)
 
 clean:
-	$(RM) Stage2/*.class
+	$(RM) Stage4/*.class
