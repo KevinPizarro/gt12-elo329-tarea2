@@ -42,7 +42,7 @@ Finalmente, para ejecutar cada etapa del programa (con el seteo descrito anterio
     
 Donde el comando **make** realiza la compilación del código, **make run** ejecuta el código y **make clean** limpia los archivos .class generados de la compilación.
 
-Dentro del simulador se encuentran las opciones de Control y Settings, la primera nos permite ejecutar los comandos Start y Stop para poder ejecutar y parar la simulación. Por otro lado, la ventana de Settings nos permite colocar los parámetros de la simulación a gusto dentro de los márgenes impuestos. 
+Dentro del simulador se encuentran las opciones de Control y Settings, la primera nos permite ejecutar los comandos Start y Stop para poder ejecutar y parar la simulación. Por otro lado, la ventana de Settings nos permite colocar los parámetros de la simulación a gusto dentro de los márgenes impuestos. Por ultimo, con la simulación ya en ejecución, se puede acelerar la simulación presionando la tecla &#8594; y para ralentizar la simulación la tecla &#8592;.
 
 ---
 ### Otros
