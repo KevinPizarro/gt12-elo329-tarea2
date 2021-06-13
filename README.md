@@ -55,6 +55,6 @@ Dentro del simulador se encuentran las opciones de Control y Settings, la primer
 
   Donde **make doc** es el comando que generará la documentación en html.
 
-**Importante** para la 2.5 es importante colocar el nombre del archivo .mp3 a reproducir en la variable FILE2 del makefile de la carpeta Extra1, en el caso de no desear cambiar el sonido de los contagios, dejar la Variable FILE2 en blanco
+**Importante** para la 2.5 se debe colocar el archivo .mp3 en la carpeta Extra1 y colocar el nombre del archivo .mp3 a reproducir en la variable FILE2 del makefile de la carpeta Extra1, en el caso de no desear cambiar el sonido de los contagios, dejar la Variable FILE2 en blanco
 
   Se toma como referencia la Tarea 1 para poder trabajar modularmente, añadiendole así la interfaz gráfica y ajustando solamente lo necesario. El repositorio se encuentra [aquí](https://gitlab.com/gt12-elo329/tarea1).
