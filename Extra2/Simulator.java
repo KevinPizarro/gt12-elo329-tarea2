@@ -1,4 +1,4 @@
-package Stage4;
+package Extra2;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
