@@ -6,15 +6,14 @@
 
 El repositorio cuenta con 4 carpetas, un readme.md y un archivo documentacion.pdf para una información más detallada sobre la solución y el código escrito. Cada una de las carpetas resuelve una etapa de ésta y todas poseen los siguientes archivos:
 
-- StageX
-	- Comuna.java
-	- ComunaView.java
-	- Pedestrian.java
-	- PedestrianView.java
-	- Simulator.java
-	- SimulatorConfig.java
-	- SimulatorMenuBar.java
-	- StageX.java
+- Comuna.java
+- ComunaView.java
+- Pedestrian.java
+- PedestrianView.java
+- Simulator.java
+- SimulatorConfig.java
+- SimulatorMenuBar.java
+- StageX.java
 - configurationFile.txt
 - beep.mp3
 - makefile
@@ -32,7 +31,8 @@ El archivo principal de ejecución (main) es StageX.java, donde X varía según 
 Antes de ejecutar deberemos realizar un seteo previo, a continuación los pasos. 
 
 - Se debe descargar la carpeta de la etapa (Stage) que se desee simular, luego hay que asegurarse de estar dentro del directorio con el comando *> cd \<Nombre del directorio\>*.
-- Se debe configurar la variable PATH dentro del archivo makefile. Debe ser modificada al directorio que se encuentren los módulos de JavaFX, como por ejemplo javafx.controls. 
+- Se debe configurar la variable PATH dentro del archivo makefile. Debe ser modificada al directorio que se encuentren los módulos de JavaFX, como por ejemplo javafx.controls.
+- Se debe configurar la variable PATH2 dentro del archivo makefile. Debe ser modificada al directorio de la carpeta principal de la tarea, es decir, por ejemplo: **D:\user\Documents\Tarea2** donde en la carpeta Tarea2 se encuentran las carpetas de las distintas Stage
 
 Finalmente, para ejecutar cada etapa del programa (con el seteo descrito anteriormente) se escriben en consola los siguientes comandos:
 
@@ -46,7 +46,7 @@ Dentro del simulador se encuentran las opciones de Control y Settings, la primer
 
 ---
 ### Otros
-  Se realiza la etapa extra 2.6 correspondiente a JavaDocs, la cual nos permite generar documentación para todo el código como un archivo html que podrá ser revisado posteriormente. Se debe utilizar los siguientes comandos.
+  Se realizan ambas etapas extra, la 2.5 correspondiente al cambio de sonidom, que nos permite cambiar el sonido de los contagios agregando un parametro extra en la ejecución del programa con el nombre del archivo y un boton "toggle" que nos permite activar o desactivar el sonido de los contagios; la 2.6 correspondiente a JavaDocs, la cual nos permite generar documentación para todo el código como un archivo html que podrá ser revisado posteriormente. Se debe utilizar los siguientes comandos.
 
 	> make
 	> make run
@@ -55,6 +55,6 @@ Dentro del simulador se encuentran las opciones de Control y Settings, la primer
 
   Donde **make doc** es el comando que generará la documentación en html.
 
-  **NOTA** Los makefiles no están funcionales, se ha consultado al profesor Patricio Olivares y no se logró correr mediante makefile en distintos entornos (W10 y Ubuntu). Pero si se ha podido ejecutar correctamente por linea de comando.
+**Importante** para la 2.5 es importante colocar el nombre del archivo .mp3 a reproducir en la variable FILE2 del makefile de la carpeta Extra1, en el caso de no desear cambiar el sonido de los contagios, dejar la Variable FILE2 en blanco
 
   Se toma como referencia la Tarea 1 para poder trabajar modularmente, añadiendole así la interfaz gráfica y ajustando solamente lo necesario. El repositorio se encuentra [aquí](https://gitlab.com/gt12-elo329/tarea1).
