@@ -4,7 +4,7 @@
 
 ### Estructura General
 
-El repositorio cuenta con 4 carpetas, un readme.md y un archivo documentacion.pdf para una información más detallada sobre la solución y el código escrito. Cada una de las carpetas resuelve una etapa de ésta y todas poseen los siguientes archivos:
+El repositorio cuenta con 6 carpetas, un readme.md y un archivo documentacion.pdf para una información más detallada sobre la solución y el código escrito. Cada una de las carpetas resuelve una etapa de ésta y todas poseen los siguientes archivos:
 
 - Comuna.java
 - ComunaView.java
@@ -15,7 +15,9 @@ El repositorio cuenta con 4 carpetas, un readme.md y un archivo documentacion.pd
 - SimulatorMenuBar.java
 - StageX.java
 - configurationFile.txt
-- beep.mp3
+- settings.fxml (Desde Stage 2 en adelante)
+- beep.mp3 (Desde Stage2 en adelante)
+- zombie.mp3 (Sólo en Extra1)
 - makefile
 
 El archivo principal de ejecución (main) es StageX.java, donde X varía según la etapa en la que se desee ejecutar. Además, el archivo configurationFile.txt contiene los parámetros de la simulación de la forma:
@@ -33,6 +35,7 @@ Antes de ejecutar deberemos realizar un seteo previo, a continuación los pasos.
 - Se debe descargar la carpeta de la etapa (Stage) que se desee simular, luego hay que asegurarse de estar dentro del directorio con el comando *> cd \<Nombre del directorio\>*.
 - Se debe configurar la variable PATH dentro del archivo makefile. Debe ser modificada al directorio que se encuentren los módulos de JavaFX, como por ejemplo javafx.controls.
 - Se debe configurar la variable PATH2 dentro del archivo makefile. Debe ser modificada al directorio de la carpeta principal de la tarea, es decir, por ejemplo: **D:\user\Documents\Tarea2** donde en la carpeta Tarea2 se encuentran las carpetas de las distintas Stage
+- Se debe verificar la línea 9 del makefile. Si se ejecuta en un dispositivo con sistema operativo Windows10 entonces debe ser descomentada, en caso de ser ejecutada en dispositivo con sistema operativo Linux entonces debe ser comentada (usar operador # al comienzo de la línea).
 
 Finalmente, para ejecutar cada etapa del programa (con el seteo descrito anteriormente) se escriben en consola los siguientes comandos:
 
@@ -48,9 +51,9 @@ Dentro del simulador se encuentran las opciones de Control y Settings, la primer
 ### Otros
   Se realizan ambas etapas extra, la 2.5 correspondiente al cambio de sonidom, que nos permite cambiar el sonido de los contagios agregando un parametro extra en la ejecución del programa con el nombre del archivo y un boton "toggle" que nos permite activar o desactivar el sonido de los contagios; la 2.6 correspondiente a JavaDocs, la cual nos permite generar documentación para todo el código como un archivo html que podrá ser revisado posteriormente. Se debe utilizar los siguientes comandos.
 
+	> make doc
 	> make
 	> make run
-	> make doc
 	> make clean
 
   Donde **make doc** es el comando que generará la documentación en html.
